@@ -49,3 +49,18 @@ class Validators:
         if password.isalnum() is False:
             raise Exception("Your password can only have alphanumeric characters")
 
+    @staticmethod
+    def validate_id(student_id):
+        if len(student_id) < 6:
+            raise Exception("Student ID is not valid - must be at least 6 characters")
+        if student_id.isinstance() is False:
+            raise Exception("Student ID must be numbers only")
+
+    @staticmethod
+    def validate_student_exists(student, all_students):
+        if student["email"] in all_students:
+            return True
+        else:
+            raise Exception("Student doesn't exist")
+
+

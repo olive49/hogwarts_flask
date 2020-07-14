@@ -49,6 +49,19 @@ class Student(Human):
         Validators.validate_name(self._first_name, self._last_name)
         Validators.validate_email(self._email)
         Validators.validate_password(self._password)
+        Validators.validate_id(self._id)
+
+    def edit_student(self, all_students_dict):
+        Validators.all_required_fields(self)
+        Validators.validate_name(self._first_name, self._last_name)
+        Validators.validate_email(self._email)
+        Validators.validate_password(self._password)
+        Validators.validate_student_exists(self, all_students_dict)
+        Validators.validate_id(self._id)
+
+
+
+
 
 
 class Admin(Human):
