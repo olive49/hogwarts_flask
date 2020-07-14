@@ -11,12 +11,11 @@ def get_students_by_email(email):
     print(email)
     return email
 
+
 @app.route('/students')
 def get_all_students():
     return
-    # return app.response_class(response=json.dumps(),
-    #                           status=200,
-    #                           mimetype='application/json')
+
 
 @app.route('/students/<date>')
 def get_students_by_add_date(date):
@@ -28,15 +27,30 @@ def get_students_by_add_date(date):
 def get_students_desired_skills():
     return
 
+
 @app.route('/students/skills')
 def get_skills():
     return
 
 
+@app.route('/students/add', methods=["POST"])
+def add_student():
+    return "Student added"
 
-@app.route('/api/post')
+
+@app.route('students/login', method=["POST"])
+def student_login():
+    return "Student logged in"
 
 
+@app.route('students/edit/<id>', method=["POST"])
+def edit_student(id):
+    return "Student edited"
+
+
+@app.route('students/delete/<id>', method=["POST"])
+def delete_student(id):
+    return "Student deleted"
 
 
 if __name__ == "__main__":
