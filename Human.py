@@ -59,9 +59,19 @@ class Student(Human):
         Validators.validate_student_exists(self, all_students_dict)
         Validators.validate_id(self._id)
 
+    def student_login(self):
+        Validators.all_required_fields(self)
+        Validators.validate_name(self._first_name, self._last_name)
+        Validators.validate_email(self._email)
+        Validators.validate_password(self._password)
+        Validators.validate_id(self._id)
 
+    def get_student_by_email(self):
+        Validators.email_provided(self._email)
+        Validators.validate_email(self._email)
 
-
+    def get_added_students_per_date(self):
+        pass
 
 
 class Admin(Human):

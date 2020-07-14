@@ -22,6 +22,7 @@ class Validators:
             raise Exception("existing_magic_skills is missing")
         if student["desired_magic_skills"] is None:
             raise Exception("desired_magic_skills is missing")
+        return True
 
     @staticmethod
     def validate_name(first_name, last_name):
@@ -39,8 +40,7 @@ class Validators:
             raise Exception("Your email is invalid because it is missing an @")
         if not ".com" in email:
             raise Exception("Your email is invalid because it is missing .com")
-        else:
-            return True
+        return True
 
     @staticmethod
     def validate_password(password):
@@ -48,6 +48,7 @@ class Validators:
             raise Exception("Your password needs to be at least 8 characters")
         if password.isalnum() is False:
             raise Exception("Your password can only have alphanumeric characters")
+        return True
 
     @staticmethod
     def validate_id(student_id):
@@ -55,6 +56,7 @@ class Validators:
             raise Exception("Student ID is not valid - must be at least 6 characters")
         if student_id.isinstance() is False:
             raise Exception("Student ID must be numbers only")
+        return True
 
     @staticmethod
     def validate_student_exists(student, all_students):
@@ -62,5 +64,11 @@ class Validators:
             return True
         else:
             raise Exception("Student doesn't exist")
+
+    @staticmethod
+    def email_provided(email):
+        if email is None:
+            raise Exception("email is missing")
+        return True
 
 
