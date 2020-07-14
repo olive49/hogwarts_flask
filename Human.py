@@ -1,3 +1,6 @@
+import json
+
+
 class Human:
     def __init__(self, first_name, last_name, email, password):
         self._first_name = first_name
@@ -17,11 +20,16 @@ class Student(Human):
         self.desired_magic_skills = desired_magic_skills
 
     def __str__(self):
-        return '"Student ID": {},\n"First Name": {},\n"Last Name": {},\n"Email": {}\n"Password": {}' \
-               '\n"Creation Time": {}, \n"Last Update": {}, \n"Existing Magic Skills": {}, ' \
-               '\n"Desired Magic Skills": {} '.format(self._id, self._first_name, self._last_name, self._email,
-                                                      self._password, self.creation_time, self.last_update,
-                                                      self.existing_magic_skills, self.desired_magic_skills)
+        student_json = json.dumps(self, default=lambda o: o.__dict__)
+        return student_json
+
+    def from_json(student_json):
+        student_dict = json.loads(student_json)
+        new_student = Student(student_dict["student_id"], student_dict["first_name"], student_dict["last_name"],
+                              student_dict["email"], student_dict["password"], student_dict["creation_time"],
+                              student_dict["last_update"], student_dict["existing_magic_skills"],
+                              student_dict["desired_magic_skills"])
+        return new_student
 
 
 class Admin(Human):
