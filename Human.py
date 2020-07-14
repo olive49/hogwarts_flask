@@ -1,4 +1,5 @@
 import json
+from Validators import Validators
 
 
 class Human:
@@ -42,6 +43,12 @@ class Student(Human):
                               student_dict["last_update"], student_dict["existing_magic_skills"],
                               student_dict["desired_magic_skills"])
         return new_student
+
+    def add_new_student(self):
+        Validators.all_required_fields(self)
+        Validators.validate_name(self._first_name, self._last_name)
+        Validators.validate_email(self._email)
+        Validators.validate_password(self._password)
 
 
 class Admin(Human):
