@@ -11,7 +11,7 @@ class Human:
 
 class Student(Human):
     def __init__(self, first_name, last_name, email, password, student_id, creation_time,
-                 last_update, existing_magic_skills, desired_magic_skills):
+                 last_update, existing_magic_skills=[], desired_magic_skills=[]):
         super().__init__(first_name, last_name, email, password)
         self._id = student_id
         self.creation_time = creation_time
@@ -20,10 +20,22 @@ class Student(Human):
         self.desired_magic_skills = desired_magic_skills
 
     def __str__(self):
+        existing_magic_skills = ''
+        for skills in self.existing_magic_skills:
+            existing_magic_skills += skills.__str__()
+        if len(existing_magic_skills) == 0:
+            existing_magic_skills = 'None'
+
+        desired_magic_skills = ''
+        for skills in self.desired_magic_skills:
+            desired_magic_skills += skills.__str__()
+        if len(desired_magic_skills) == 0:
+            desired_magic_skills = 'None'
+
         student_json = json.dumps(self, default=lambda o: o.__dict__)
         return student_json
 
-    def from_json(student_json):
+    def from_json(self, student_json):
         student_dict = json.loads(student_json)
         new_student = Student(student_dict["student_id"], student_dict["first_name"], student_dict["last_name"],
                               student_dict["email"], student_dict["password"], student_dict["creation_time"],
