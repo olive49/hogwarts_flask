@@ -1,5 +1,6 @@
 import json
 from Validators import Validators
+from datetime import datetime
 
 
 class Human:
@@ -8,6 +9,9 @@ class Human:
         self._last_name = last_name
         self._email = email
         self._password = password
+
+    def get_email(self):
+        return self._email
 
 
 class Student(Human):
@@ -32,6 +36,8 @@ class Student(Human):
             desired_magic_skills += skills.__str__()
         if len(desired_magic_skills) == 0:
             desired_magic_skills = 'None'
+
+        self.last_update = str(datetime.now())
 
         student_json = json.dumps(self, default=lambda o: o.__dict__)
         return student_json

@@ -1,5 +1,5 @@
 import json
-import os
+import os.path, time
 from flask import Flask, send_from_directory, render_template, request
 from datetime import datetime
 
@@ -16,7 +16,7 @@ def get_all_students():
     pass
 
 
-@app.route('/students/<date>')
+@app.route('/students/', params=datetime.now.__str__())
 def get_students_by_add_date(date):
     pass
 
