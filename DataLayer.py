@@ -3,6 +3,7 @@ import pathlib
 from Human import Student
 import json
 
+
 class DataLayer:
     def __init__(self, students_dict={}):
         self._students_dict = students_dict
@@ -32,18 +33,18 @@ class DataLayer:
         return students_strings
 
     def remove_student(self, student_email):
-        if student_email not in self._students_dict.keys():
-            raise ValueError("Student email does not exist")
+        try:
+            del self._students_dict[student_email]
+            return "Success"
 
-        # student = self._students_dict[student_email]
-        # for key in self._students_dict:
-        #     if student_email == key:
-        # True
+        except Exception as e:
+            raise Exception("something went wrong, error is: {}".format(e))
 
     def persist_students(self):
         try:
             folder_where_json_file_is = pathlib.Path(__file__).parent.parent
-            db_file = str(folder_where_json_file_is) + os.sep + "students.json"
+            db_file = str(folder_where_json_file_is) + os.path.join("students.json")
+            # db_file = str(folder_where_json_file_is) + os.sep + "students.json"
 
             if os.path.exists(db_file):
                 os.remove(db_file)
@@ -60,23 +61,19 @@ class DataLayer:
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
+    @staticmethod
+    def load_all_students():
+        try:
+            folder_where_json_file_is = pathlib.Path(__file__).parent.parent
+            read_file = str(folder_where_json_file_is) + os.path.join("students.json")
 
+            if os.path.exists(read_file):
+                with open("students.json", "r") as f:
+                    students_dict = json.load(f)
+                return students_dict
+            else:
+                raise Exception("File doesn't exist")
+            return "Success"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        except Exception as e:
+            raise Exception("something went wrong, error is: {}".format(e))
