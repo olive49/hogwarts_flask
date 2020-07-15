@@ -2,8 +2,15 @@ import json
 import os.path, time
 from flask import Flask, send_from_directory, render_template, request
 from datetime import datetime
+from DataLayer import DataLayer
 
 app = Flask(__name__)
+
+
+@app.before_first_request()
+def create_data_layer_instance():
+    datalayer = DataLayer()
+    datalayer.load_all_students()
 
 
 @app.route('/students/<email>')

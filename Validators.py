@@ -71,4 +71,12 @@ class Validators:
             raise Exception("email is missing")
         return True
 
+    @staticmethod
+    def unique_email(email, all_students):
+        if email in all_students:
+            raise Exception("Student already exists")
+        else:
+            return True
+
+
 

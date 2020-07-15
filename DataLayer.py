@@ -5,7 +5,7 @@ import json
 
 
 class DataLayer:
-    def __init__(self, students_dict={}):
+    def __init__(self, students_dict):
         self._students_dict = students_dict
 
     def get_student_by_email(self, student):
@@ -69,7 +69,9 @@ class DataLayer:
 
             if os.path.exists(read_file):
                 with open("students.json", "r") as f:
-                    students_dict = json.load(f)
+                    json_content = json.load(f)
+                    students_dict = {json_content.email: json_content.__str__()}
+
                 return students_dict
             else:
                 raise Exception("File doesn't exist")
