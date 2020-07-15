@@ -1,17 +1,17 @@
 {
-  "Becca@gmail.com": {
-    "creation_time": "2020-07-15T17:41:47.200825",
-    "desired_magic_skills": [
-      "invisibility"
-    ],
-    "email": "Becca@gmail.com",
-    "existing_magic_skills": [
-      "flying"
-    ],
-    "first_name": "Becca",
-    "id": 123456,
-    "last_name": "Teva",
-    "last_update": "2020-07-15T17:41:47.200849",
-    "password": "Iloveicecream"
-  }
+    "Hermione@magic.com": {
+        "creation_time": "2020-07-15T18:05:06.448229",
+        "desired_magic_skills": [
+            "invisibility"
+        ],
+        "email": "Hermione@magic.com",
+        "existing_magic_skills": [
+            "flying: level_1, Quidditch: level_3"
+        ],
+        "first_name": "Hermione",
+        "id": 148329,
+        "last_name": "Radcliffe",
+        "last_update": "2020-07-15T18:05:06.448247",
+        "password": "Ihaveglasses"
+    }
 }

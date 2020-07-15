@@ -7,8 +7,9 @@ import json
 class DataLayer:
     students_dict = {}
 
-    def __init__(self, students_dict):
-        self.students_dict = students_dict
+    def __init__(self):
+        # self.students_dict = students_dict
+        pass
 
     def get_student_by_email(self, student):
         if student is None:
@@ -47,9 +48,8 @@ class DataLayer:
     def persist_students(student):
         try:
             DataLayer.students_dict[student.email] = student
-            print("PERSIST EMAIL", student.email)
             with open("Data/students.json", "w") as write_file:
-                json.dump(DataLayer.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True, indent=2)
+                json.dump(DataLayer.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True, indent=4)
                 return "Success"
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))

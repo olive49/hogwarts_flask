@@ -15,7 +15,7 @@ file = "Data/students.json"
 @app.before_first_request
 @app.route('/')
 def create_data_layer_instance():
-    data_layer = DataLayer(students_dict)
+    data_layer = DataLayer()
     data_layer.load_all_students(file)
     return app.response_class(response=json.dumps(students_dict), status=200, mimetype="application/json")
 
@@ -51,8 +51,7 @@ def add_student():
     Student.add_new_student(data, students_dict)
     new_student = Student(data['student_id'], data['first_name'], data['last_name'], data['email'], data['password'],
                           data['existing_magic_skills'], data["desired_magic_skills"])
-    print("I am the NEW STUDENT", new_student)
-
+    students_dict[new_student.email] = new_student
     DataLayer.persist_students(new_student)
 
 

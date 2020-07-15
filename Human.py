@@ -78,7 +78,9 @@ class Student(Human):
         Validators.validate_password(student['password'])
         Validators.validate_id(student['student_id'])
         Validators.unique_email(student['email'], all_students_dict)
+        print("ALL STUDENTS DICT", all_students_dict)
         return student, all_students_dict
+
 
     def edit_student(self, all_students_dict):
         Validators.all_required_fields(self)
