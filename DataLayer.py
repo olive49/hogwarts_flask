@@ -5,26 +5,28 @@ import json
 
 
 class DataLayer:
+    students_dict = {}
+
     def __init__(self, students_dict):
-        self._students_dict = students_dict
+        self.students_dict = students_dict
 
     def get_student_by_email(self, student):
         if student is None:
             raise ValueError("Missing required student instance!")
 
-        if student.get_email() in self._students_dict.keys():
+        if student.get_email() in self.students_dict.keys():
             return student
 
     def set_student_by_email(self, student, student_email):
         if student is None:
             raise ValueError("Missing required student instance!")
 
-        if not student.get_email() in self._students_dict.keys():
-            self._students_dict[student_email] = student
+        if not student.get_email() in self.students_dict.keys():
+            self.students_dict[student_email] = student
             print(self)
 
     def get_all_students(self):
-        for key, value in self._students_dict:
+        for key, value in self.students_dict:
             print(key, value)
             return key, value
 
@@ -34,7 +36,7 @@ class DataLayer:
 
     def remove_student(self, student_email):
         try:
-            del self._students_dict[student_email]
+            del self.students_dict[student_email]
             return "Success"
 
         except Exception as e:
@@ -42,40 +44,41 @@ class DataLayer:
 
     def persist_students(self):
         try:
-            folder_where_json_file_is = pathlib.Path(__file__).parent.parent
-            db_file = str(folder_where_json_file_is) + os.path.join("students.json")
-            # db_file = str(folder_where_json_file_is) + os.sep + "students.json"
+            with open("students.json", "w") as write_file:
+                json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True, indent=2)
+                return "Success"
+        except ValueError as e:
+            print(e)
 
-            if os.path.exists(db_file):
-                os.remove(db_file)
-            else:
-                raise Exception("File doesn't exist")
-
-            student_json = json.dumps(self._students_dict)
-
-            file = open("users.json", "a")
-            file.write(student_json)
-            file.close()
-            return "Success"
 
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
     @staticmethod
-    def load_all_students():
+    def load_all_students(file):
         try:
-            folder_where_json_file_is = pathlib.Path(__file__).parent.parent
-            read_file = str(folder_where_json_file_is) + os.path.join("students.json")
+            with open(file, "r") as read_file:
+                if len(file) == 0:
+                    pass
+                else:
+                    data = json.load(read_file)
+                    DataLayer.students_dict.update(data)
+                    print("User dictionary", DataLayer.students_dict)
+        except ValueError as e:
+            print(e)
 
-            if os.path.exists(read_file):
-                with open("students.json", "r") as f:
-                    json_content = json.load(f)
-                    students_dict = {json_content.email: json_content.__str__()}
-
-                return students_dict
-            else:
-                raise Exception("File doesn't exist")
-            return "Success"
-
-        except Exception as e:
-            raise Exception("something went wrong, error is: {}".format(e))
+        #     folder_where_json_file_is = pathlib.Path(__file__).parent
+        #     read_file = str(folder_where_json_file_is) + os.path.join("students.json")
+        #
+        #     if os.path.exists(read_file):
+        #         with open("students.json", "r") as f:
+        #             json_content = json.load(f)
+        #             students_dict = {json_content.email: json_content.__str__()}
+        #
+        #         return students_dict
+        #     else:
+        #         raise Exception("File doesn't exist")
+        #     return "Success"
+        #
+        # except Exception as e:
+        #     raise Exception("something went wrong, error is: {}".format(e))

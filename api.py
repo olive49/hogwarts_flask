@@ -6,11 +6,13 @@ from DataLayer import DataLayer
 
 app = Flask(__name__)
 
+students_dict = {}
+file = "Data/students.json"
 
-@app.before_first_request()
+@app.before_first_request
 def create_data_layer_instance():
-    datalayer = DataLayer()
-    datalayer.load_all_students()
+    datalayer = DataLayer(students_dict)
+    datalayer.load_all_students(file)
 
 
 @app.route('/students/<email>')
@@ -23,9 +25,9 @@ def get_all_students():
     pass
 
 
-@app.route('/students/', params=datetime.now.__str__())
-def get_students_by_add_date(date):
-    pass
+# @app.route('/students/', params=datetime.now.__str__())
+# def get_students_by_add_date():
+#     pass
 
 
 @app.route('/students/desired')
@@ -43,17 +45,17 @@ def add_student():
     pass
 
 
-@app.route('students/login', method=["POST"])
+@app.route('/students/login', methods=["POST"])
 def student_login():
     pass
 
 
-@app.route('students/edit/<id>', method=["POST"])
+@app.route('/students/edit/<id>', methods=["POST"])
 def edit_student(id):
     pass
 
 
-@app.route('students/delete/<id>', method=["POST"])
+@app.route('/students/delete/<id>', methods=["POST"])
 def delete_student(id):
     pass
 

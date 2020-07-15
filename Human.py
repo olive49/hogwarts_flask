@@ -1,4 +1,7 @@
 import json
+
+import datetime as datetime
+
 from Validators import Validators
 from datetime import datetime
 
@@ -84,3 +87,7 @@ class Student(Human):
 class Admin(Human):
     def __init__(self, first_name, last_name, email, password):
         super().__init__(first_name, last_name, email, password)
+
+
+Becca = Student("Becca", "Teva", "teva@gmail.com", "Iloveicecream", 123453, 2020_03_06,
+                2020_06_03, ["flying"], ["magic"])
