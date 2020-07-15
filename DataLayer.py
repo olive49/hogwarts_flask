@@ -42,15 +42,15 @@ class DataLayer:
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
-    def persist_students(self):
+
+    @staticmethod
+    def persist_students(student):
         try:
-            with open("students.json", "w") as write_file:
-                json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True, indent=2)
+            DataLayer.students_dict[student.email] = student
+            print("PERSIST EMAIL", student.email)
+            with open("Data/students.json", "w") as write_file:
+                json.dump(DataLayer.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True, indent=2)
                 return "Success"
-        except ValueError as e:
-            print(e)
-
-
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
@@ -62,23 +62,9 @@ class DataLayer:
                     pass
                 else:
                     data = json.load(read_file)
-                    DataLayer.students_dict.update(data)
-                    print("User dictionary", DataLayer.students_dict)
+                    print(data)
+                    # DataLayer.students_dict.update(data)
+                    # print("User dictionary", DataLayer.students_dict)
         except ValueError as e:
             print(e)
 
-        #     folder_where_json_file_is = pathlib.Path(__file__).parent
-        #     read_file = str(folder_where_json_file_is) + os.path.join("students.json")
-        #
-        #     if os.path.exists(read_file):
-        #         with open("students.json", "r") as f:
-        #             json_content = json.load(f)
-        #             students_dict = {json_content.email: json_content.__str__()}
-        #
-        #         return students_dict
-        #     else:
-        #         raise Exception("File doesn't exist")
-        #     return "Success"
-        #
-        # except Exception as e:
-        #     raise Exception("something went wrong, error is: {}".format(e))

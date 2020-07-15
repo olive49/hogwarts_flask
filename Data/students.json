@@ -1,1 +1,17 @@
-{}
+{
+  "Becca@gmail.com": {
+    "creation_time": "2020-07-15T17:41:47.200825",
+    "desired_magic_skills": [
+      "invisibility"
+    ],
+    "email": "Becca@gmail.com",
+    "existing_magic_skills": [
+      "flying"
+    ],
+    "first_name": "Becca",
+    "id": 123456,
+    "last_name": "Teva",
+    "last_update": "2020-07-15T17:41:47.200849",
+    "password": "Iloveicecream"
+  }
+}

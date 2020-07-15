@@ -1,6 +1,6 @@
 class Validators:
-    def __init__(self, student):
-        self.student = student
+    def __init__(self):
+        pass
 
     @staticmethod
     def all_required_fields(student):
@@ -14,10 +14,6 @@ class Validators:
             raise Exception("password is missing")
         if student["student_id"] is None:
             raise Exception("password2 is missing")
-        if student["creation_time"] is None:
-            raise Exception("creation_time is missing")
-        if student["last_update"] is None:
-            raise Exception("last_update is missing")
         if student["existing_magic_skills"] is None:
             raise Exception("existing_magic_skills is missing")
         if student["desired_magic_skills"] is None:
@@ -52,9 +48,9 @@ class Validators:
 
     @staticmethod
     def validate_id(student_id):
-        if len(student_id) < 6:
+        if len(str(student_id)) < 6:
             raise Exception("Student ID is not valid - must be at least 6 characters")
-        if student_id.isinstance() is False:
+        if isinstance(student_id, int) is False:
             raise Exception("Student ID must be numbers only")
         return True
 
