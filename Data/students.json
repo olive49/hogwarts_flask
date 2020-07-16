@@ -1,17 +1,32 @@
 {
-    "Hermione@magic.com": {
-        "creation_time": "2020-07-15T18:05:06.448229",
+    "Redhead@magic.com": {
+        "creation_time": "2020-07-16T12:26:00.901148",
         "desired_magic_skills": [
-            "invisibility"
+            "invisibility, teleportation"
         ],
-        "email": "Hermione@magic.com",
+        "email": "Redhead@magic.com",
         "existing_magic_skills": [
-            "flying: level_1, Quidditch: level_3"
+            "flying: level_4, Quidditch: level_2"
         ],
-        "first_name": "Hermione",
-        "id": 148329,
-        "last_name": "Radcliffe",
-        "last_update": "2020-07-15T18:05:06.448247",
-        "password": "Ihaveglasses"
+        "first_name": "Ron",
+        "id": 1238986,
+        "last_name": "Weasley",
+        "last_update": "2020-07-16T12:26:00.901171",
+        "password": "ihaveredhair"
+    },
+    "Scar@magic.com": {
+        "creation_time": "2020-07-16T12:26:49.566192",
+        "desired_magic_skills": [
+            "invisibility, teleportation"
+        ],
+        "email": "Scar@magic.com",
+        "existing_magic_skills": [
+            "flying: level_4, Quidditch: level_2"
+        ],
+        "first_name": "Harry",
+        "id": 1238986,
+        "last_name": "Potter",
+        "last_update": "2020-07-16T12:26:49.566207",
+        "password": "ilovemagic"
     }
 }

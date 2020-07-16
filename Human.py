@@ -2,6 +2,7 @@ import json
 
 import datetime as datetime
 
+# from DataLayer import DataLayer
 from Validators import Validators
 from datetime import datetime
 from typing import Dict, Optional
@@ -27,6 +28,7 @@ class Student(Human):
         self.desired_magic_skills = desired_magic_skills
         self.creation_time = str(datetime.now().isoformat())
         self.last_update = str(datetime.now().isoformat())
+        # self.students_dict = DataLayer()
 
     def __str__(self):
         local_student_dict = {self.email: {"first_name": self.first_name,
@@ -51,7 +53,6 @@ class Student(Human):
         # if len(desired_magic_skills) == 0:
         #     desired_magic_skills = 'None'
 
-
     def add_existing_skill(self, skill):
         self.existing_magic_skills.append(skill)
         print(self.existing_magic_skills)
@@ -70,24 +71,21 @@ class Student(Human):
         return new_student
 
     @staticmethod
-    def add_new_student(student, all_students_dict):
-        print("I am the student", student)
+    def add_new_student(student, students_dict):
         Validators.all_required_fields(student)
         Validators.validate_name(student['first_name'], student['last_name'])
         Validators.validate_email(student['email'])
         Validators.validate_password(student['password'])
         Validators.validate_id(student['student_id'])
-        Validators.unique_email(student['email'], all_students_dict)
-        print("ALL STUDENTS DICT", all_students_dict)
-        return student, all_students_dict
+        Validators.unique_email(student['email'], students_dict)
+        return student, students_dict
 
-
-    def edit_student(self, all_students_dict):
+    def edit_student(self, students_dict):
         Validators.all_required_fields(self)
         Validators.validate_name(self.first_name, self.last_name)
         Validators.validate_email(self.email)
         Validators.validate_password(self.password)
-        Validators.validate_student_exists(self, all_students_dict)
+        Validators.validate_student_exists(self, students_dict)
         Validators.validate_id(self.id)
 
     def student_login(self):
@@ -108,5 +106,3 @@ class Student(Human):
 class Admin(Human):
     def __init__(self, first_name, last_name, email, password):
         super().__init__(first_name, last_name, email, password)
-
-

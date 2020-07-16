@@ -7,27 +7,31 @@ from Human import Student
 from typing import Dict, Optional
 
 app = Flask(__name__)
-
-students_dict = {}
-file = "Data/students.json"
+data_layer = DataLayer()
 
 
 @app.before_first_request
 @app.route('/')
 def create_data_layer_instance():
-    data_layer = DataLayer()
-    data_layer.load_all_students(file)
-    return app.response_class(response=json.dumps(students_dict), status=200, mimetype="application/json")
+    data_layer.load_all_students()
+    return app.response_class(response=json.dumps(data_layer.students_dict), status=200, mimetype="application/json")
 
 
 @app.route('/students/<email>')
 def get_students_by_email(email):
-    pass
+    for email in data_layer.students_dict:
+        print(data_layer.students_dict[email])
+    DataLayer.get_student_by_email(email, DataLayer)
+    return data_layer.students_dict[email]
 
 
 @app.route('/students')
 def get_all_students():
-    pass
+    for key, value in data_layer.students_dict:
+        print(key, value)
+    return app.response_class(response=json.dumps(data_layer.students_dict),
+                              status=200,
+                              mimetype='application/json')
 
 
 @app.route('/students/added_on/<int:added_date>')
@@ -48,11 +52,13 @@ def get_skills():
 @app.route('/students/add', methods=["PUT"])
 def add_student():
     data = request.json
-    Student.add_new_student(data, students_dict)
+    Student.add_new_student(data, data_layer.students_dict)
     new_student = Student(data['student_id'], data['first_name'], data['last_name'], data['email'], data['password'],
                           data['existing_magic_skills'], data["desired_magic_skills"])
-    students_dict[new_student.email] = new_student
-    DataLayer.persist_students(new_student)
+    data_layer.students_dict[new_student.email] = new_student
+    # print(data_layer.students_dict)
+    data_layer.persist_students(new_student)
+    return "Student added"
 
 
 @app.route('/students/login', methods=["PUT"])
@@ -72,3 +78,5 @@ def delete_student(id):
 
 if __name__ == "__main__":
     app.run()
+    # app.run(debug=True)
+

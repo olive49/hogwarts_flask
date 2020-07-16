@@ -5,18 +5,20 @@ import json
 
 
 class DataLayer:
-    students_dict = {}
 
-    def __init__(self):
-        # self.students_dict = students_dict
-        pass
+    def __init__(self, students_dict={}):
+        self.students_dict = students_dict
 
-    def get_student_by_email(self, student):
-        if student is None:
+    @staticmethod
+    def get_student_by_email(email, students_dict):
+        if email is None:
             raise ValueError("Missing required student instance!")
 
-        if student.get_email() in self.students_dict.keys():
-            return student
+        if email not in students_dict.keys():
+            raise ValueError("Missing required student instance!")
+
+        if email in students_dict.keys():
+            return students_dict[email]
 
     def set_student_by_email(self, student, student_email):
         if student is None:
@@ -24,7 +26,7 @@ class DataLayer:
 
         if not student.get_email() in self.students_dict.keys():
             self.students_dict[student_email] = student
-            print(self)
+            print(self.students_dict)
 
     def get_all_students(self):
         for key, value in self.students_dict:
@@ -43,28 +45,27 @@ class DataLayer:
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
-
-    @staticmethod
-    def persist_students(student):
+    def persist_students(self, student):
         try:
-            DataLayer.students_dict[student.email] = student
+            self.students_dict[student.email] = student
             with open("Data/students.json", "w") as write_file:
-                json.dump(DataLayer.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True, indent=4)
+                json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True,
+                          indent=4)
                 return "Success"
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
     @staticmethod
-    def load_all_students(file):
+    def load_all_students():
         try:
-            with open(file, "r") as read_file:
-                if len(file) == 0:
+            with open("Data/students.json", "r") as read_file:
+                if len("Data/students.json") == 0:
                     pass
                 else:
                     data = json.load(read_file)
-                    print(data)
+                    return data
                     # DataLayer.students_dict.update(data)
                     # print("User dictionary", DataLayer.students_dict)
+
         except ValueError as e:
             print(e)
-
