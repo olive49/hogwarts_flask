@@ -1,6 +1,7 @@
 import os
 import pathlib
 from Human import Student
+import datetime
 import json
 
 
@@ -33,6 +34,17 @@ class DataLayer:
         for key, value in self.students_dict:
             print(key, value)
             return key, value
+
+    def get_students_by_add_date(self, creation_time):
+        string_date = (str(creation_time))
+        date = datetime.datetime(year=int(string_date[0:4]), month=int(string_date[4:6]), day=int(string_date[6:8]))
+        dates = []
+        for key, value in self.students_dict.items():
+            if date == value:
+                dates.append(key)
+            else:
+                return "no students added"
+        return dates
 
     def students_json_strings(self):
         students_strings = json.dumps(DataLayer.get_all_students(self))

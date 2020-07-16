@@ -26,7 +26,7 @@ class Student(Human):
         self.id = student_id
         self.existing_magic_skills = existing_magic_skills
         self.desired_magic_skills = desired_magic_skills
-        self.creation_time = str(datetime.now().isoformat())
+        self.creation_time = str(datetime.now().date())
         self.last_update = str(datetime.now().isoformat())
 
     def __str__(self):
