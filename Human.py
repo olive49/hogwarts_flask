@@ -28,7 +28,6 @@ class Student(Human):
         self.desired_magic_skills = desired_magic_skills
         self.creation_time = str(datetime.now().isoformat())
         self.last_update = str(datetime.now().isoformat())
-        # self.students_dict = DataLayer()
 
     def __str__(self):
         local_student_dict = {self.email: {"first_name": self.first_name,

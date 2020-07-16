@@ -7,18 +7,19 @@ import json
 class DataLayer:
 
     def __init__(self, students_dict={}):
-        self.students_dict = students_dict
+        self.students_dict = DataLayer.load_all_students()
 
-    @staticmethod
-    def get_student_by_email(email, students_dict):
+    def get_student_by_email(self, email):
+        print(self.students_dict)
         if email is None:
             raise ValueError("Missing required student instance!")
 
-        if email not in students_dict.keys():
-            raise ValueError("Missing required student instance!")
+        if email not in self.students_dict:
+            raise ValueError("Missing required student instance in dictionary!")
 
-        if email in students_dict.keys():
-            return students_dict[email]
+        if email in self.students_dict:
+            dict_value = self.students_dict.get(email)
+            return dict_value
 
     def set_student_by_email(self, student, student_email):
         if student is None:
@@ -47,7 +48,7 @@ class DataLayer:
 
     def persist_students(self, student):
         try:
-            self.students_dict[student.email] = student
+            # self.students_dict[student.email] = student
             with open("Data/students.json", "w") as write_file:
                 json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True,
                           indent=4)
@@ -64,8 +65,5 @@ class DataLayer:
                 else:
                     data = json.load(read_file)
                     return data
-                    # DataLayer.students_dict.update(data)
-                    # print("User dictionary", DataLayer.students_dict)
-
         except ValueError as e:
             print(e)

@@ -1,32 +1,47 @@
 {
-    "Redhead@magic.com": {
-        "creation_time": "2020-07-16T12:26:00.901148",
+    "Hermione@magic.com": {
+        "creation_time": "2020-07-16T14:55:32.976542",
         "desired_magic_skills": [
             "invisibility, teleportation"
         ],
-        "email": "Redhead@magic.com",
+        "email": "Hermione@magic.com",
         "existing_magic_skills": [
             "flying: level_4, Quidditch: level_2"
         ],
-        "first_name": "Ron",
-        "id": 1238986,
-        "last_name": "Weasley",
-        "last_update": "2020-07-16T12:26:00.901171",
-        "password": "ihaveredhair"
+        "first_name": "Hermione",
+        "id": 1238982,
+        "last_name": "Granger",
+        "last_update": "2020-07-16T14:55:32.976562",
+        "password": "ilovequidditch"
     },
-    "Scar@magic.com": {
-        "creation_time": "2020-07-16T12:26:49.566192",
+    "magic@gmail.com": {
+        "creation_time": "2020-07-16T14:46:16.226317",
         "desired_magic_skills": [
             "invisibility, teleportation"
         ],
-        "email": "Scar@magic.com",
+        "email": "magic@gmail.com",
         "existing_magic_skills": [
             "flying: level_4, Quidditch: level_2"
         ],
-        "first_name": "Harry",
-        "id": 1238986,
-        "last_name": "Potter",
-        "last_update": "2020-07-16T12:26:49.566207",
+        "first_name": "Michael",
+        "id": 1238988,
+        "last_name": "Scott",
+        "last_update": "2020-07-16T14:46:16.226338",
         "password": "ilovemagic"
+    },
+    "mgs@magic.com": {
+        "creation_time": "2020-07-16T15:04:55.402358",
+        "desired_magic_skills": [
+            "invisibility, teleportation"
+        ],
+        "email": "mgs@magic.com",
+        "existing_magic_skills": [
+            "flying: level_4, Quidditch: level_2"
+        ],
+        "first_name": "Michael",
+        "id": 1238981,
+        "last_name": "Scott",
+        "last_update": "2020-07-16T15:04:55.402379",
+        "password": "ilovelamp"
     }
 }
