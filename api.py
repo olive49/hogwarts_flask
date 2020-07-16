@@ -34,7 +34,7 @@ def get_all_students():
                               mimetype='application/json')
 
 
-@app.route('/students/added_on/<int:added_date>')
+@app.route('/students/added_on/<added_date>')
 def get_students_by_add_date(added_date):
     data_layer.get_students_by_add_date(added_date)
     return added_date
@@ -60,6 +60,7 @@ def add_student():
     data_layer.students_dict[new_student.email] = new_student
     print(data_layer.students_dict)
     data_layer.persist_students(new_student)
+    print(new_student)
     return "Student added"
 
 
