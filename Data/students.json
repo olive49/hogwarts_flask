@@ -14,6 +14,44 @@
         "last_update": "2020-07-16T14:55:32.976562",
         "password": "ilovequidditch"
     },
+    "angela2@magic.com": {
+        "creation_time": "2020-07-17",
+        "desired_magic_skills": [
+            {
+                "name": "flying"
+            }
+        ],
+        "email": "angela2@magic.com",
+        "existing_magic_skills": [
+            {
+                "name": "invisibility"
+            }
+        ],
+        "first_name": "Angela",
+        "id": 123834,
+        "last_name": "Martin",
+        "last_update": "2020-07-17T13:16:05.052375",
+        "password": "ilovecats"
+    },
+    "angela@magic.com": {
+        "creation_time": "2020-07-17",
+        "desired_magic_skills": [
+            {
+                "name": "flying"
+            }
+        ],
+        "email": "angela@magic.com",
+        "existing_magic_skills": [
+            {
+                "name": "invisibility"
+            }
+        ],
+        "first_name": "Angela",
+        "id": 123834,
+        "last_name": "Martin",
+        "last_update": "2020-07-17T13:14:23.103402",
+        "password": "ilovecats"
+    },
     "dwight2@magic.com": {
         "creation_time": "2020-07-17",
         "desired_magic_skills": [
@@ -133,5 +171,62 @@
         "last_name": "Scott",
         "last_update": "2020-07-16T15:04:55.402379",
         "password": "ilovelamp"
+    },
+    "pam23@magic.com": {
+        "creation_time": "2020-07-17",
+        "desired_magic_skills": [
+            {
+                "name": "teleportation"
+            }
+        ],
+        "email": "pam23@magic.com",
+        "existing_magic_skills": [
+            {
+                "name": "Quidditch"
+            }
+        ],
+        "first_name": "Pam",
+        "id": 123818,
+        "last_name": "Beasley",
+        "last_update": "2020-07-17T13:22:21.216059",
+        "password": "ilovereception"
+    },
+    "pam25@magic.com": {
+        "creation_time": "2020-07-17",
+        "desired_magic_skills": [
+            {
+                "name": "teleportation"
+            }
+        ],
+        "email": "pam25@magic.com",
+        "existing_magic_skills": [
+            {
+                "name": "Quidditch"
+            }
+        ],
+        "first_name": "Pam",
+        "id": 123818,
+        "last_name": "Beasley",
+        "last_update": "2020-07-17T13:28:27.542242",
+        "password": "ilovereception"
+    },
+    "pam2@magic.com": {
+        "creation_time": "2020-07-17",
+        "desired_magic_skills": [
+            {
+                "name": "teleportation"
+            }
+        ],
+        "email": "pam2@magic.com",
+        "existing_magic_skills": [
+            {
+                "name": "Quidditch"
+            }
+        ],
+        "first_name": "Pam",
+        "id": 123818,
+        "last_name": "Beasley",
+        "last_update": "2020-07-17T13:21:07.004132",
+        "password": "ilovereception"
     }
 }

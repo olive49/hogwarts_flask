@@ -57,7 +57,20 @@ class DataLayer:
         if len(students_with_matching_skill) > 0:
             return json.dumps(students_with_matching_skill)
         else:
-            return "no students with this skill"
+            return "no students with existing skill"
+
+    def get_students_by_desired_skills(self, desired_skill):
+        students_with_desired_skill = []
+
+        for student_key in self.students_dict:
+            student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
+            for student_skill in student_skills:
+                if desired_skill in student_skill:
+                    students_with_desired_skill.append(student_key)
+        if len(students_with_desired_skill) > 0:
+            return json.dumps(students_with_desired_skill)
+        else:
+            return "no students with desired skill"
 
     def students_json_strings(self):
         students_strings = json.dumps(DataLayer.get_all_students(self))

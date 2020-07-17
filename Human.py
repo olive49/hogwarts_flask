@@ -6,6 +6,7 @@ import datetime as datetime
 from Validators import Validators
 from datetime import datetime
 from typing import Dict, Optional
+from Skill import Skill
 
 
 class Human:
@@ -23,9 +24,20 @@ class Student(Human):
     def __init__(self, student_id, first_name, last_name, email, password,
                  existing_magic_skills=[], desired_magic_skills=[]):
         super().__init__(first_name, last_name, email, password)
+
+        existing_magic_skills_as_object = []
+        for existing_skill_string in existing_magic_skills:
+            existing_magic_skills_as_object.append(Skill(existing_skill_string))
+            print(Skill(existing_skill_string))
+
+        desired_magic_skills_as_object = []
+        for desired_skill_string in desired_magic_skills:
+            desired_magic_skills_as_object.append(Skill(desired_skill_string))
+            print(Skill(desired_skill_string))
+
         self.id = student_id
-        self.existing_magic_skills = existing_magic_skills
-        self.desired_magic_skills = desired_magic_skills
+        self.existing_magic_skills = existing_magic_skills_as_object
+        self.desired_magic_skills = desired_magic_skills_as_object
         self.creation_time = str(datetime.now().date())
         self.last_update = str(datetime.now().isoformat())
 
