@@ -20,7 +20,7 @@ class DataLayer:
 
         if email in self.students_dict:
             dict_value = self.students_dict.get(email)
-            return dict_value
+            return json.dumps(dict_value)
 
     def set_student_by_email(self, student, student_email):
         if student is None:
@@ -62,11 +62,11 @@ class DataLayer:
     def get_students_by_desired_skills(self, desired_skill):
         students_with_desired_skill = []
 
+        lc_desired_skill = desired_skill.lower()
         for student_key in self.students_dict:
-            student_skills = self.students_dict[student_key]['desired_magic_skills'][0]
-            # student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
+            student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
             for student_skill in student_skills:
-                if desired_skill in student_skill:
+                if lc_desired_skill in student_skill:
                     students_with_desired_skill.append(student_key)
         if len(students_with_desired_skill) > 0:
             return json.dumps(students_with_desired_skill)

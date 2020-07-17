@@ -22,7 +22,9 @@ def get_students_by_email(email):
     for email in data_layer.students_dict:
         print(data_layer.students_dict[email])
     data_layer.get_student_by_email(email)
-    return data_layer.students_dict[email]
+    return app.response_class(response=data_layer.students_dict[email],
+                              status=200,
+                              mimetype='application/json')
 
 
 @app.route('/students')
@@ -64,7 +66,7 @@ def add_student():
     data_layer.set_student_by_email(new_student, new_student.email)
     data_layer.students_dict[new_student.email] = new_student
     print(data_layer.students_dict)
-    data_layer.persist_students(new_student)
+    data_layer.persist_students()
     print(new_student)
     return "Student added"
 
