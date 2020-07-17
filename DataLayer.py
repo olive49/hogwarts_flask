@@ -7,7 +7,7 @@ import json
 
 class DataLayer:
 
-    def __init__(self, students_dict={}):
+    def __init__(self):
         self.students_dict = DataLayer.load_all_students()
 
     def get_student_by_email(self, email):
@@ -82,16 +82,12 @@ class DataLayer:
             print("The dictionary before performing remove is : " + str(self.students_dict))
             del self.students_dict[student_email]
             print("The dictionary after remove is : " + str(self.students_dict))
-            # self.students_dict.pop(student_to_be_removed)
-            # key = frozenset(self.students_dict.items())
-            # return json.dumps(student_to_be_removed)
 
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
     def persist_students(self):
         try:
-            # self.students_dict[student.email] = student
             with open("Data/students.json", "w") as write_file:
                 json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True,
                           indent=4)
