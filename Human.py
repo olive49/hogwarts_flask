@@ -40,23 +40,22 @@ class Student(Human):
         string = "{}".format(local_student_dict)
         json.dumps(string, default=lambda o: o.__dict__)
         return string
-        # existing_magic_skills = ''
-        # for skills in self.existing_magic_skills:
-        #     existing_magic_skills += skills.__str__()
-        # if len(existing_magic_skills) == 0:
-        #     existing_magic_skills = 'None'
-        #
-        # desired_magic_skills = ''
-        # for skills in self.desired_magic_skills:
-        #     desired_magic_skills += skills.__str__()
-        # if len(desired_magic_skills) == 0:
-        #     desired_magic_skills = 'None'
 
     def add_existing_skill(self, skill):
+        existing_magic_skills = ''
+        for skills in self.existing_magic_skills:
+            existing_magic_skills += skills.__str__()
+        if len(existing_magic_skills) == 0:
+            existing_magic_skills = 'None'
         self.existing_magic_skills.append(skill)
         print(self.existing_magic_skills)
 
     def add_desired_skills(self, skill):
+        desired_magic_skills = ''
+        for skills in self.desired_magic_skills:
+            desired_magic_skills += skills.__str__()
+        if len(desired_magic_skills) == 0:
+            desired_magic_skills = 'None'
         self.desired_magic_skills.append(skill)
         print(self.desired_magic_skills)
 
@@ -105,3 +104,5 @@ class Student(Human):
 class Admin(Human):
     def __init__(self, first_name, last_name, email, password):
         super().__init__(first_name, last_name, email, password)
+
+        # send a request so it knows this user is the admin

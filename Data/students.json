@@ -14,6 +14,21 @@
         "last_update": "2020-07-16T14:55:32.976562",
         "password": "ilovequidditch"
     },
+    "dwight2@magic.com": {
+        "creation_time": "2020-07-17",
+        "desired_magic_skills": [
+            "invisibility, teleportation"
+        ],
+        "email": "dwight2@magic.com",
+        "existing_magic_skills": [
+            "flying"
+        ],
+        "first_name": "Dwight",
+        "id": 123832,
+        "last_name": "Schrute",
+        "last_update": "2020-07-17T11:49:24.546495",
+        "password": "ilovebeets"
+    },
     "dwight@magic.com": {
         "creation_time": "2020-07-16",
         "desired_magic_skills": [

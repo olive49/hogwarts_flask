@@ -39,15 +39,14 @@ def get_students_by_add_date(added_date):
     return data_layer.get_students_by_add_date(added_date)
 
 
+@app.route('/students/desired_skills/<skill>')
+def get_students_desired_skills(skill):
+    return data_layer.get_students_by_desired_skills(skill)
 
-@app.route('/students/desired')
-def get_students_desired_skills():
-    return
 
-
-@app.route('/students/skills')
-def get_skills():
-    return
+@app.route('/students/existing_skills/<skill>')
+def get_students_existing_skills(skill):
+    return data_layer.get_students_by_existing_skills(skill)
 
 
 @app.route('/students/add', methods=["PUT"])

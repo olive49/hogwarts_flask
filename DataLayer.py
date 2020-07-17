@@ -44,7 +44,20 @@ class DataLayer:
                 print(self.students_dict[key]['creation_time'])
             else:
                 return "no students added"
-        return str(dates)
+        return json.dumps(dates)
+
+    def get_students_by_existing_skills(self, requested_skill):
+        students_with_matching_skill = []
+
+        for studentKey in self.students_dict:
+            student_skills = self.students_dict[studentKey]['existing_magic_skills'][0].split(',')
+            for student_skill in student_skills:
+                if requested_skill in student_skill:
+                    students_with_matching_skill.append(studentKey)
+        if len(students_with_matching_skill) > 0:
+            return json.dumps(students_with_matching_skill)
+        else:
+            return "no students with this skill"
 
     def students_json_strings(self):
         students_strings = json.dumps(DataLayer.get_all_students(self))
