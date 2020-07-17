@@ -36,8 +36,8 @@ def get_all_students():
 
 @app.route('/students/added_on/<added_date>')
 def get_students_by_add_date(added_date):
-    data_layer.get_students_by_add_date(added_date)
-    return added_date
+    return data_layer.get_students_by_add_date(added_date)
+
 
 
 @app.route('/students/desired')

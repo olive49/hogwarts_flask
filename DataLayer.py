@@ -44,7 +44,7 @@ class DataLayer:
                 print(self.students_dict[key]['creation_time'])
             else:
                 return "no students added"
-        return dates
+        return str(dates)
 
     def students_json_strings(self):
         students_strings = json.dumps(DataLayer.get_all_students(self))
