@@ -63,7 +63,8 @@ class DataLayer:
         students_with_desired_skill = []
 
         for student_key in self.students_dict:
-            student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
+            student_skills = self.students_dict[student_key]['desired_magic_skills'][0]
+            # student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
             for student_skill in student_skills:
                 if desired_skill in student_skill:
                     students_with_desired_skill.append(student_key)
@@ -78,13 +79,17 @@ class DataLayer:
 
     def remove_student(self, student_email):
         try:
+            print("The dictionary before performing remove is : " + str(self.students_dict))
             del self.students_dict[student_email]
-            return "Success"
+            print("The dictionary after remove is : " + str(self.students_dict))
+            # self.students_dict.pop(student_to_be_removed)
+            # key = frozenset(self.students_dict.items())
+            # return json.dumps(student_to_be_removed)
 
         except Exception as e:
             raise Exception("something went wrong, error is: {}".format(e))
 
-    def persist_students(self, student):
+    def persist_students(self):
         try:
             # self.students_dict[student.email] = student
             with open("Data/students.json", "w") as write_file:

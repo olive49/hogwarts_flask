@@ -39,7 +39,7 @@ class Student(Human):
         self.existing_magic_skills = existing_magic_skills_as_object
         self.desired_magic_skills = desired_magic_skills_as_object
         self.creation_time = str(datetime.now().date())
-        self.last_update = str(datetime.now().isoformat())
+        self.last_update = str(datetime.now())
 
     def __str__(self):
         local_student_dict = {self.email: {"first_name": self.first_name,
@@ -60,6 +60,7 @@ class Student(Human):
         if len(existing_magic_skills) == 0:
             existing_magic_skills = 'None'
         self.existing_magic_skills.append(skill)
+        self.last_update = datetime.datetime.now()
         print(self.existing_magic_skills)
 
     def add_desired_skills(self, skill):
@@ -69,6 +70,7 @@ class Student(Human):
         if len(desired_magic_skills) == 0:
             desired_magic_skills = 'None'
         self.desired_magic_skills.append(skill)
+        self.last_update = str(datetime.now())
         print(self.desired_magic_skills)
 
     @staticmethod
@@ -97,6 +99,7 @@ class Student(Human):
         Validators.validate_password(self.password)
         Validators.validate_student_exists(self, students_dict)
         Validators.validate_id(self.id)
+        self.last_update = datetime.datetime.now()
 
     def student_login(self):
         Validators.all_required_fields(self)
