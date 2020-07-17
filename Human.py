@@ -97,9 +97,6 @@ class Student(Human):
         Validators.email_provided(self.email)
         Validators.validate_email(self.email)
 
-    def get_added_students_per_date(self):
-        pass
-
 
 class Admin(Human):
     def __init__(self, first_name, last_name, email, password):

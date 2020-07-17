@@ -49,11 +49,11 @@ class DataLayer:
     def get_students_by_existing_skills(self, requested_skill):
         students_with_matching_skill = []
 
-        for studentKey in self.students_dict:
-            student_skills = self.students_dict[studentKey]['existing_magic_skills'][0].split(',')
+        for student_key in self.students_dict:
+            student_skills = self.students_dict[student_key]['existing_magic_skills'][0].split(',')
             for student_skill in student_skills:
                 if requested_skill in student_skill:
-                    students_with_matching_skill.append(studentKey)
+                    students_with_matching_skill.append(student_key)
         if len(students_with_matching_skill) > 0:
             return json.dumps(students_with_matching_skill)
         else:
