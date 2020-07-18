@@ -20,7 +20,8 @@
             "invisibility, teleportation",
             [
                 "Quidditch"
-            ]
+            ],
+            "Magic wands"
         ],
         "email": "dwight2@magic.com",
         "existing_magic_skills": [
@@ -29,7 +30,7 @@
         "first_name": "Dwight",
         "id": 123832,
         "last_name": "Schrute",
-        "last_update": "2020-07-18 19:08:35.553124",
+        "last_update": "2020-07-18 19:17:04.983301",
         "password": "ilovebeets"
     },
     "dwight@magic.com": {

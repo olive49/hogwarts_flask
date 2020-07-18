@@ -76,20 +76,11 @@ class Student(Human):
 
     @staticmethod
     def add_desired_skills(student, skill):
-        skill_type = skill.get("desired_magic_skills", "")
-        student["desired_magic_skills"].append(skill_type)
+        student["desired_magic_skills"].append(skill)
         last_update = str(datetime.now())
         student["last_update"] = last_update
 
         return student
-
-
-        # if len(skill_json) == 0:
-        #     desired_magic_skills = 'None'
-        # # student.desired_magic_skills.append(skill)
-        #
-        # date = str(datetime.now())
-
 
     @staticmethod
     def from_json(student_json):
