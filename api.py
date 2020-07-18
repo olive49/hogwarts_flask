@@ -128,7 +128,7 @@ def edit_student_desired_skills():
     return data_layer.load_all_students()
 
 
-@app.route('/students/edit/existing_skills', method=["PUT"])
+@app.route('/students/edit/existing_skills', methods=["PUT"])
 def edit_student_existing_skills():
     data = request.json
     email = data["email"]

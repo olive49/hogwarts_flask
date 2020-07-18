@@ -26,12 +26,13 @@
         ],
         "email": "dwight2@magic.com",
         "existing_magic_skills": [
-            "flying"
+            "flying",
+            "Potion brewing"
         ],
         "first_name": "Dwight",
         "id": 123832,
         "last_name": "Schrute",
-        "last_update": "2020-07-18 22:00:07.028528",
+        "last_update": "2020-07-18 22:11:38.600024",
         "password": "ilovebeets"
     },
     "dwight@magic.com": {
