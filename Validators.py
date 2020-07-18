@@ -73,6 +73,3 @@ class Validators:
             raise Exception("Student already exists")
         else:
             return True
-
-
-

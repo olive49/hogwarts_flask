@@ -25,7 +25,7 @@ def login_required(f):
 
 @app.before_first_request
 @app.route('/')
-def create_data_layer_instance():
+def return_all_students():
     data_layer.load_all_students()
     return app.response_class(response=json.dumps(data_layer.students_dict), status=200, mimetype="application/json")
 
@@ -70,7 +70,7 @@ def get_students_existing_skills(skill):
                               mimetype='application/json')
 
 
-@app.route('/admin/students/add', methods=["PUT", "GET"])
+@app.route('/students/add', methods=["PUT", "GET"])
 # @login_required
 def add_student():
     data = request.json
@@ -81,7 +81,9 @@ def add_student():
     data_layer.set_student_by_email(new_student, new_student.email)
     data_layer.students_dict[new_student.email] = new_student
     data_layer.persist_students()
-    return "Student added"
+    response = app.response_class(response=({"New student added"}),
+                                  status=200, mimetype="application/json")
+    return response
 
 
 @app.route('/admin/login', methods=["PUT", "GET"])
@@ -112,10 +114,17 @@ def student_login():
     # return render_template('edit_student.html', error=error)
 
 
-@app.route('/students/edit/<email>', methods=["PUT"])
-def edit_student(email):
-    for email in data_layer.students_dict:
-        print(data_layer.students_dict.get(email))
+@app.route('/students/edit/<desired_skill>/<email>', methods=["PUT", "GET"])
+def edit_student(email, desired_skill):
+    student = data_layer.get_student_by_email(email)
+    student_json = json.loads(student)
+    Student.add_desired_skills(student_json, desired_skill)
+    data_layer.persist_students()
+    return "Desired Skill has been updated"
+
+
+
+
         # return json.dumps(data_layer.students_dict[email])
     # student.edit_student(email)
 

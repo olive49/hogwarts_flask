@@ -53,25 +53,37 @@ class Student(Human):
         json.dumps(string, default=lambda o: o.__dict__)
         return string
 
-    def add_existing_skill(self, skill):
+    @staticmethod
+    def add_existing_skill(student, skill):
         existing_magic_skills = ''
-        for skills in self.existing_magic_skills:
+        # for skills in student.existing_magic_skills:
+        for skills in student.desired_magic_skills[0].split(','):
             existing_magic_skills += skills.__str__()
         if len(existing_magic_skills) == 0:
             existing_magic_skills = 'None'
-        self.existing_magic_skills.append(skill)
-        self.last_update = datetime.datetime.now()
-        print(self.existing_magic_skills)
+        student.existing_magic_skills.append(skill)
+        student.last_update = datetime.datetime.now()
+        print(student.existing_magic_skills)
+        return student.existing_magic_skills
 
-    def add_desired_skills(self, skill):
-        desired_magic_skills = ''
-        for skills in self.desired_magic_skills:
-            desired_magic_skills += skills.__str__()
+    #     student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
+    #     for student_skill in student_skills:
+    #         if lc_desired_skill in student_skill:
+    #             students_with_desired_skill.append(student_key)
+    # if len(students_with_desired_skill) > 0:
+    #     return json.dumps(students_with_desired_skill)
+
+    @staticmethod
+    def add_desired_skills(student, skill):
+        desired_magic_skills = [skill]
+        # for skills in student["desired_magic_skills"]:
+        student["desired_magic_skills"].append(desired_magic_skills)
         if len(desired_magic_skills) == 0:
             desired_magic_skills = 'None'
-        self.desired_magic_skills.append(skill)
-        self.last_update = str(datetime.now())
-        print(self.desired_magic_skills)
+        # student.desired_magic_skills.append(skill)
+
+        Student.last_update = str(datetime.now())
+        return student
 
     @staticmethod
     def from_json(student_json):

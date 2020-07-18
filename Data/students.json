@@ -44,6 +44,28 @@
         "last_update": "2020-07-16T16:20:00.060624",
         "password": "ilovebeets"
     },
+    "kevin@magic.com": {
+        "creation_time": "2020-07-18",
+        "desired_magic_skills": [
+            {
+                "name": "Invisibility"
+            }
+        ],
+        "email": "kevin@magic.com",
+        "existing_magic_skills": [
+            {
+                "name": "Flying"
+            },
+            {
+                "name": "Level 1"
+            }
+        ],
+        "first_name": "Kevin",
+        "id": 126818,
+        "last_name": "Malone",
+        "last_update": "2020-07-18 12:51:28.668691",
+        "password": "ilovecandy"
+    },
     "magic@gmail.com": {
         "creation_time": "2020-07-16T14:46:16.226317",
         "desired_magic_skills": [
