@@ -1,10 +1,8 @@
 import json
-
 import datetime as datetime
-
-# from DataLayer import DataLayer
 from Validators import Validators
 from datetime import datetime
+import time
 from typing import Dict, Optional
 from Skill import Skill
 
@@ -21,6 +19,9 @@ class Human:
 
 
 class Student(Human):
+
+    last_update = str(datetime.now())
+
     def __init__(self, student_id, first_name, last_name, email, password,
                  existing_magic_skills=[], desired_magic_skills=[]):
         super().__init__(first_name, last_name, email, password)
@@ -39,7 +40,7 @@ class Student(Human):
         self.existing_magic_skills = existing_magic_skills_as_object
         self.desired_magic_skills = desired_magic_skills_as_object
         self.creation_time = str(datetime.now().date())
-        self.last_update = str(datetime.now())
+        # self.last_update = str(datetime.now())
 
     def __str__(self):
         local_student_dict = {self.email: {"first_name": self.first_name,
@@ -75,15 +76,20 @@ class Student(Human):
 
     @staticmethod
     def add_desired_skills(student, skill):
-        desired_magic_skills = [skill]
-        # for skills in student["desired_magic_skills"]:
-        student["desired_magic_skills"].append(desired_magic_skills)
-        if len(desired_magic_skills) == 0:
-            desired_magic_skills = 'None'
-        # student.desired_magic_skills.append(skill)
+        skill_type = skill.get("desired_magic_skills", "")
+        student["desired_magic_skills"].append(skill_type)
+        last_update = str(datetime.now())
+        student["last_update"] = last_update
 
-        Student.last_update = str(datetime.now())
         return student
+
+
+        # if len(skill_json) == 0:
+        #     desired_magic_skills = 'None'
+        # # student.desired_magic_skills.append(skill)
+        #
+        # date = str(datetime.now())
+
 
     @staticmethod
     def from_json(student_json):

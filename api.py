@@ -114,16 +114,17 @@ def student_login():
     # return render_template('edit_student.html', error=error)
 
 
-@app.route('/students/edit/<desired_skill>/<email>', methods=["PUT", "GET"])
-def edit_student(email, desired_skill):
-    student = data_layer.get_student_by_email(email)
-    student_json = json.loads(student)
-    Student.add_desired_skills(student_json, desired_skill)
-    data_layer.persist_students()
-    return "Desired Skill has been updated"
-
-
-
+@app.route('/students/edit/<email>', methods=["PUT", "GET"])
+def edit_student(email):
+    student = data_layer.students_dict[email]
+    # student_json = json.loads(student)
+    if request.method == 'PUT':
+        data = request.json
+        Student.add_desired_skills(student, data)
+        data_layer.persist_students()
+        app.response_class(response=({"Student updated"}),
+                           status=200, mimetype="application/json")
+        return data_layer.load_all_students()
 
         # return json.dumps(data_layer.students_dict[email])
     # student.edit_student(email)
