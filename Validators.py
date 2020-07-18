@@ -13,7 +13,7 @@ class Validators:
         if student["password"] is None:
             raise Exception("password is missing")
         if student["student_id"] is None:
-            raise Exception("password2 is missing")
+            raise Exception("student_id is missing")
         if student["existing_magic_skills"] is None:
             raise Exception("existing_magic_skills is missing")
         if student["desired_magic_skills"] is None:
