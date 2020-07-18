@@ -115,12 +115,27 @@ def student_login():
 
 
 @app.route('/students/edit/desired_skills', methods=["PUT"])
-def edit_student():
+def edit_student_desired_skills():
     data = request.json
     email = data["email"]
     desired_skills = data["desired_magic_skills"]
     student = data_layer.students_dict[email]
+    Student.edit_student(student, data_layer.students_dict)
     Student.add_desired_skills(student, desired_skills)
+    data_layer.persist_students()
+    app.response_class(response=({"Student updated"}),
+                       status=200, mimetype="application/json")
+    return data_layer.load_all_students()
+
+
+@app.route('/students/edit/existing_skills', method=["PUT"])
+def edit_student_existing_skills():
+    data = request.json
+    email = data["email"]
+    new_existing_skill = data["existing_magic_skills"]
+    student = data_layer.students_dict[email]
+    Student.edit_student(student, data_layer.students_dict)
+    Student.add_existing_skill(student, new_existing_skill)
     data_layer.persist_students()
     app.response_class(response=({"Student updated"}),
                        status=200, mimetype="application/json")

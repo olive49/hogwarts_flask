@@ -21,6 +21,7 @@
             [
                 "Quidditch"
             ],
+            "Magic wands",
             "Magic wands"
         ],
         "email": "dwight2@magic.com",
@@ -30,7 +31,7 @@
         "first_name": "Dwight",
         "id": 123832,
         "last_name": "Schrute",
-        "last_update": "2020-07-18 19:17:04.983301",
+        "last_update": "2020-07-18 22:00:07.028528",
         "password": "ilovebeets"
     },
     "dwight@magic.com": {

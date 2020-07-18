@@ -56,23 +56,11 @@ class Student(Human):
 
     @staticmethod
     def add_existing_skill(student, skill):
-        existing_magic_skills = ''
-        # for skills in student.existing_magic_skills:
-        for skills in student.desired_magic_skills[0].split(','):
-            existing_magic_skills += skills.__str__()
-        if len(existing_magic_skills) == 0:
-            existing_magic_skills = 'None'
-        student.existing_magic_skills.append(skill)
-        student.last_update = datetime.datetime.now()
-        print(student.existing_magic_skills)
-        return student.existing_magic_skills
+        student["existing_magic_skills"].append(skill)
+        last_update = str(datetime.now())
+        student["last_update"] = last_update
 
-    #     student_skills = self.students_dict[student_key]['desired_magic_skills'][0].split(',')
-    #     for student_skill in student_skills:
-    #         if lc_desired_skill in student_skill:
-    #             students_with_desired_skill.append(student_key)
-    # if len(students_with_desired_skill) > 0:
-    #     return json.dumps(students_with_desired_skill)
+        return student
 
     @staticmethod
     def add_desired_skills(student, skill):
@@ -97,18 +85,19 @@ class Student(Human):
         Validators.validate_name(student['first_name'], student['last_name'])
         Validators.validate_email(student['email'])
         Validators.validate_password(student['password'])
-        Validators.validate_id(student['student_id'])
+        Validators.validate_id(student['student_id']) or Validators.validate_id('id')
         Validators.unique_email(student['email'], students_dict)
         return student, students_dict
 
-    def edit_student(self, students_dict):
-        Validators.all_required_fields(self)
-        Validators.validate_name(self.first_name, self.last_name)
-        Validators.validate_email(self.email)
-        Validators.validate_password(self.password)
-        Validators.validate_student_exists(self, students_dict)
-        Validators.validate_id(self.id)
-        self.last_update = datetime.datetime.now()
+    @staticmethod
+    def edit_student(student, students_dict):
+        Validators.all_required_fields(student)
+        Validators.validate_name(student["first_name"], student["last_name"])
+        Validators.validate_email(student["email"])
+        Validators.validate_password(student["password"])
+        Validators.validate_student_exists(student, students_dict)
+        Validators.validate_id(student["id"]) or Validators.validate_id(student["student_id"])
+        student["last_update"] = str(datetime.now())
 
     def student_login(self):
         Validators.all_required_fields(self)
