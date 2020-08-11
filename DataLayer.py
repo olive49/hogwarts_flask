@@ -12,6 +12,7 @@ class DataLayer:
     def __init__(self):
         self.students_dict = DataLayer.get_all_students()
         self.students_json_dict = DataLayer.load_all_students()
+        self.desired_skills_dict = DataLayer.get_desired_skills_count()
         self.admin_dict = {"veronica@hi.com": "hihihihi",
                            }
 
@@ -19,6 +20,11 @@ class DataLayer:
     def get_all_students():
         students = DataLayer.mongoDB.get_all_students()
         return students
+
+    @staticmethod
+    def get_desired_skills_count():
+        desired_skills = DataLayer.mongoDB.get_desired_skills_count()
+        return desired_skills
 
     @staticmethod
     def add_student(student):

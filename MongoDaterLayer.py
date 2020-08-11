@@ -19,6 +19,11 @@ class MongoDataLayer:
             student_list.append(student)
         return student_list
 
+    def get_desired_skills_count(self):
+        pipeline = [{"$group": {"_id": "$desired_magic_skills", "myCount": {"$sum": 1}}}]
+        val = list(self.__db["students"].aggregate(pipeline))
+        return val
+
     def add_student(self, student):
         self.__db["students"].insert(student)
         return True
@@ -30,3 +35,4 @@ class MongoDataLayer:
     def edit_student(self, student, email):
         self.__db["students"].update({"email": email}, student)
         return
+
