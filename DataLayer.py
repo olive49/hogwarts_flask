@@ -3,12 +3,49 @@ import pathlib
 from Human import Student
 import datetime
 import json
+from MongoDaterLayer import MongoDataLayer
 
 
 class DataLayer:
+    mongoDB = MongoDataLayer()
 
     def __init__(self):
-        self.students_dict = DataLayer.load_all_students()
+        self.students_dict = DataLayer.get_all_students()
+        self.students_json_dict = DataLayer.load_all_students()
+        self.admin_dict = {"veronica@hi.com": "hihihihi",
+                           }
+
+    @staticmethod
+    def get_all_students():
+        students = DataLayer.mongoDB.get_all_students()
+        return students
+
+    @staticmethod
+    def add_student(student):
+        new_student = DataLayer.mongoDB.add_student(student)
+        return new_student
+
+    @staticmethod
+    def remove_student(student):
+        DataLayer.mongoDB.remove_student(student)
+        return True
+
+    @staticmethod
+    def edit_student(student, email):
+        DataLayer.mongoDB.edit_student(student, email)
+        return True
+
+    def set_student_by_email(self, student):
+        if student is None:
+            raise ValueError("Missing required student instance!")
+
+        if not student.get_email() in self.students_dict:
+            return
+
+    def is_admin(self, admin):
+        if admin['admin_email'] in self.admin_dict:
+            return True
+        return False
 
     def get_student_by_email(self, email):
         print(self.students_dict)
@@ -21,19 +58,6 @@ class DataLayer:
         if email in self.students_dict:
             dict_value = self.students_dict.get(email)
             return json.dumps(dict_value)
-
-    def set_student_by_email(self, student, student_email):
-        if student is None:
-            raise ValueError("Missing required student instance!")
-
-        if not student.get_email() in self.students_dict.keys():
-            self.students_dict[student_email] = student
-            print(self.students_dict)
-
-    def get_all_students(self):
-        for key, value in self.students_dict:
-            print(key, value)
-            return key, value
 
     def get_students_by_add_date(self, creation_time):
         dates = []
@@ -77,24 +101,6 @@ class DataLayer:
         students_strings = json.dumps(DataLayer.get_all_students(self))
         return students_strings
 
-    def remove_student(self, student_email):
-        try:
-            print("The dictionary before performing remove is : " + str(self.students_dict))
-            del self.students_dict[student_email]
-            print("The dictionary after remove is : " + str(self.students_dict))
-
-        except Exception as e:
-            raise Exception("something went wrong, error is: {}".format(e))
-
-    def persist_students(self):
-        try:
-            with open("Data/students.json", "w") as write_file:
-                json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True,
-                          indent=4)
-                return "Success"
-        except Exception as e:
-            raise Exception("something went wrong, error is: {}".format(e))
-
     @staticmethod
     def load_all_students():
         try:
@@ -106,3 +112,22 @@ class DataLayer:
                     return data
         except ValueError as e:
             print(e)
+
+
+    # def remove_student(self, student_email):
+    #     try:
+    #         print("The dictionary before performing remove is : " + str(self.students_dict))
+    #         del self.students_dict[student_email]
+    #         print("The dictionary after remove is : " + str(self.students_dict))
+    #
+    #     except Exception as e:
+    #         raise Exception("something went wrong, error is: {}".format(e))
+
+    # def persist_students(self):
+    #     try:
+    #         with open("Data/students.json", "w") as write_file:
+    #             json.dump(self.students_dict, write_file, default=lambda obj: obj.__dict__, sort_keys=True,
+    #                       indent=4)
+    #             return "Success"
+    #     except Exception as e:
+    #         raise Exception("something went wrong, error is: {}".format(e))

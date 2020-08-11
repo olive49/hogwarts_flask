@@ -1,165 +1,87 @@
-{
-    "Hermione@magic.com": {
-        "creation_time": "2020-07-16T14:55:32.976542",
+[
+    {
         "desired_magic_skills": [
-            "invisibility, teleportation"
+            "Parseltongue"
         ],
-        "email": "Hermione@magic.com",
+        "email": "harry@Hogwarts.com",
         "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
+            {
+                "Potion Making": "2"
+            }
+        ],
+        "first_name": "Harry",
+        "last_name": "Potter"
+    },
+    {
+        "creation_time": "2020-08-10",
+        "desired_magic_skills": [
+            "Potionmaking"
+        ],
+        "email": "hermione@hogwarts.com",
+        "existing_magic_skills": [
+            {
+                "Quidditch": 5
+            }
         ],
         "first_name": "Hermione",
-        "id": 1238982,
-        "last_name": "Granger",
-        "last_update": "2020-07-16T14:55:32.976562",
-        "password": "ilovequidditch"
+        "id": 12345678,
+        "last_name": "Granger"
     },
-    "dwight2@magic.com": {
-        "creation_time": "2020-07-17",
+    {
+        "creation_time": "2020-08-10",
         "desired_magic_skills": [
-            "invisibility, teleportation",
-            [
-                "Quidditch"
-            ],
-            "Magic wands",
-            "Magic wands"
+            "Potion Making",
+            "Spells",
+            "Potion Making"
         ],
-        "email": "dwight2@magic.com",
-        "existing_magic_skills": [
-            "flying",
-            "Potion brewing"
-        ],
-        "first_name": "Dwight",
-        "id": 123832,
-        "last_name": "Schrute",
-        "last_update": "2020-07-18 22:11:38.600024",
-        "password": "ilovebeets"
-    },
-    "dwight@magic.com": {
-        "creation_time": "2020-07-16",
-        "desired_magic_skills": [
-            "invisibility, teleportation"
-        ],
-        "email": "dwight@magic.com",
-        "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
-        ],
-        "first_name": "Dwight",
-        "id": 123832,
-        "last_name": "Schrute",
-        "last_update": "2020-07-16T16:20:00.060624",
-        "password": "ilovebeets"
-    },
-    "kevin@magic.com": {
-        "creation_time": "2020-07-18",
-        "desired_magic_skills": [
-            {
-                "name": "Invisibility"
-            }
-        ],
-        "email": "kevin@magic.com",
+        "email": "r.feigenbaum49@gmail.com",
         "existing_magic_skills": [
             {
-                "name": "Flying"
+                "level": "4",
+                "skill": "Potion Making"
             },
             {
-                "name": "Level 1"
+                "level": "5",
+                "skill": "Apparate"
+            },
+            {
+                "level": "3",
+                "skill": "Quidditch"
             }
         ],
-        "first_name": "Kevin",
-        "id": 126818,
-        "last_name": "Malone",
-        "last_update": "2020-07-18 12:51:28.668691",
-        "password": "ilovecandy"
+        "first_name": "Rebecca",
+        "id": 12345678,
+        "last_name": "Feigenbaum"
     },
-    "magic@gmail.com": {
-        "creation_time": "2020-07-16T14:46:16.226317",
+    {
+        "creation_time": "2020-08-10",
         "desired_magic_skills": [
-            "invisibility, teleportation"
+            "Potion Making",
+            "Spells",
+            "Potion Making",
+            "Apparate"
         ],
-        "email": "magic@gmail.com",
+        "email": "dwight@hogwarts.com",
         "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
+            {
+                "level": "4",
+                "skill": "Potion Making"
+            },
+            {
+                "level": "5",
+                "skill": "Apparate"
+            },
+            {
+                "level": "3",
+                "skill": "Quidditch"
+            },
+            {
+                "level": "4",
+                "skill": "Metamorphmagi"
+            }
         ],
-        "first_name": "Michael",
-        "id": 1238988,
-        "last_name": "Scott",
-        "last_update": "2020-07-16T14:46:16.226338",
-        "password": "ilovemagic"
-    },
-    "mean@magic.com": {
-        "creation_time": "2020-07-16",
-        "desired_magic_skills": [
-            "invisibility, teleportation"
-        ],
-        "email": "mean@magic.com",
-        "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
-        ],
-        "first_name": "Regina",
-        "id": 1238982,
-        "last_name": "George",
-        "last_update": "2020-07-16T16:16:12.958505",
-        "password": "iiwearpink"
-    },
-    "meangirl23@magic.com": {
-        "creation_time": "2020-07-16",
-        "desired_magic_skills": [
-            "invisibility, teleportation"
-        ],
-        "email": "meangirl23@magic.com",
-        "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
-        ],
-        "first_name": "Regina",
-        "id": 1238982,
-        "last_name": "George",
-        "last_update": "2020-07-16T16:17:37.953604",
-        "password": "iiwearpink"
-    },
-    "meangirl2@magic.com": {
-        "creation_time": "2020-07-16",
-        "desired_magic_skills": [
-            "invisibility, teleportation"
-        ],
-        "email": "meangirl2@magic.com",
-        "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
-        ],
-        "first_name": "Regina",
-        "id": 1238982,
-        "last_name": "George",
-        "last_update": "2020-07-16T16:17:10.276367",
-        "password": "iiwearpink"
-    },
-    "meangirl@magic.com": {
-        "creation_time": "2020-07-16",
-        "desired_magic_skills": [
-            "invisibility, teleportation"
-        ],
-        "email": "meangirl@magic.com",
-        "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
-        ],
-        "first_name": "Regina",
-        "id": 1238982,
-        "last_name": "George",
-        "last_update": "2020-07-16T16:16:44.796387",
-        "password": "iiwearpink"
-    },
-    "mgs@magic.com": {
-        "creation_time": "2020-07-16T15:04:55.402358",
-        "desired_magic_skills": [
-            "invisibility, teleportation"
-        ],
-        "email": "mgs@magic.com",
-        "existing_magic_skills": [
-            "flying: level_4, Quidditch: level_2"
-        ],
-        "first_name": "Michael",
-        "id": 1238981,
-        "last_name": "Scott",
-        "last_update": "2020-07-16T15:04:55.402379",
-        "password": "ilovelamp"
+        "first_name": "Dwight",
+        "id": 12345678,
+        "last_name": "Schrute"
     }
-}
+]

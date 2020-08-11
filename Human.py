@@ -5,14 +5,15 @@ from datetime import datetime
 import time
 from typing import Dict, Optional
 from Skill import Skill
+from MongoDaterLayer import MongoDataLayer
 
 
 class Human:
-    def __init__(self, first_name, last_name, email, password):
+    def __init__(self, first_name, last_name, email):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = password
+
 
     def get_email(self):
         return self.email
@@ -20,11 +21,14 @@ class Human:
 
 class Student(Human):
 
+    mongoDB = MongoDataLayer()
+
     last_update = str(datetime.now())
 
-    def __init__(self, student_id, first_name, last_name, email, password,
+
+    def __init__(self, first_name, last_name, email,
                  existing_magic_skills=[], desired_magic_skills=[]):
-        super().__init__(first_name, last_name, email, password)
+        super().__init__(first_name, last_name, email)
 
         existing_magic_skills_as_object = []
         for existing_skill_string in existing_magic_skills:
@@ -36,23 +40,10 @@ class Student(Human):
             desired_magic_skills_as_object.append(Skill(desired_skill_string))
             print(Skill(desired_skill_string))
 
-        self.id = student_id
-        self.existing_magic_skills = existing_magic_skills_as_object
-        self.desired_magic_skills = desired_magic_skills_as_object
+        self.existing_magic_skills = existing_magic_skills
+        self.desired_magic_skills = desired_magic_skills
         self.creation_time = str(datetime.now().date())
         # self.last_update = str(datetime.now())
-
-    def __str__(self):
-        local_student_dict = {self.email: {"first_name": self.first_name,
-                                           "last_name": self.last_name,
-                                           "email": self.email,
-                                           "password": self.password,
-                                           "existing_magic_skills": self.existing_magic_skills,
-                                           "desired_magic_skills": self.desired_magic_skills
-                                           }}
-        string = "{}".format(local_student_dict)
-        json.dumps(string, default=lambda o: o.__dict__)
-        return string
 
     @staticmethod
     def add_existing_skill(student, skill):
@@ -73,30 +64,29 @@ class Student(Human):
     @staticmethod
     def from_json(student_json):
         student_dict = json.loads(student_json)
-        new_student = Student(student_dict["student_id"], student_dict["first_name"], student_dict["last_name"],
-                              student_dict["email"], student_dict["password"], student_dict["existing_magic_skills"],
+        new_student = Student(student_dict["first_name"], student_dict["last_name"],
+                              student_dict["email"], student_dict["existing_magic_skills"],
                               student_dict["desired_magic_skills"])
 
         return new_student
 
     @staticmethod
-    def add_new_student(student, students_dict):
+    def add_new_student(student):
+        students_dict = Student.mongoDB.get_all_students()
         Validators.all_required_fields(student)
         Validators.validate_name(student['first_name'], student['last_name'])
         Validators.validate_email(student['email'])
-        Validators.validate_password(student['password'])
-        Validators.validate_id(student['student_id']) or Validators.validate_id('id')
+        # Validators.validate_id(student['student_id'])
         Validators.unique_email(student['email'], students_dict)
-        return student, students_dict
+        return student
 
     @staticmethod
-    def edit_student(student, students_dict):
+    def edit_student(student):
+        students_dict = Student.mongoDB.get_all_students()
         Validators.all_required_fields(student)
         Validators.validate_name(student["first_name"], student["last_name"])
         Validators.validate_email(student["email"])
-        Validators.validate_password(student["password"])
-        Validators.validate_student_exists(student, students_dict)
-        Validators.validate_id(student["id"]) or Validators.validate_id(student["student_id"])
+        # Validators.validate_student_exists(student, students_dict)
         student["last_update"] = str(datetime.now())
 
     def student_login(self):
@@ -112,7 +102,7 @@ class Student(Human):
 
 
 class Admin(Human):
-    def __init__(self, first_name, last_name, email, password):
-        super().__init__(first_name, last_name, email, password)
+    def __init__(self, first_name, last_name, email):
+        super().__init__(first_name, last_name, email)
 
         # send a request so it knows this user is the admin
