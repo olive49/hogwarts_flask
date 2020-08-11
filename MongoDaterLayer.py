@@ -24,6 +24,14 @@ class MongoDataLayer:
         val = list(self.__db["students"].aggregate(pipeline))
         return val
 
+    db.students.aggregate()
+
+    def get_existing_skills_count(self):
+        return
+        # pipeline = [{"$project": {"_id": "$existing_magic_skills", "myCount": {"$sum": 1}}}, {"$match": {"skill"}}]
+        # val = list(self.__db["students"].aggregate(pipeline))
+        # return val
+
     def add_student(self, student):
         self.__db["students"].insert(student)
         return True

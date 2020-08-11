@@ -7,12 +7,18 @@ from Human import Student
 from typing import Dict, Optional
 from functools import wraps
 from flask_cors import CORS
+import atexit
 
 app = Flask(__name__)
 CORS(app)
 
 data_layer = DataLayer()
 app.secret_key = "Gryffindor"
+
+
+@atexit.register()
+def close_db_connection():
+    data_layer.shutdown()
 
 
 @app.route('/')
@@ -24,6 +30,11 @@ def return_all_students():
 def return_desired_skills_count():
     data_layer.get_desired_skills_count()
     return app.response_class(response=json.dumps(data_layer.desired_skills_dict), status=200, mimetype="application/json")
+
+@app.route('/fun')
+def return_existing_skills_count():
+    data_layer.get_existing_skills_count()
+    return app.response_class(response=json.dumps(data_layer.existing_skills_dict), status=200, mimetype="application/json")
 
 
 def login_required(f):

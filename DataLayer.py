@@ -13,8 +13,13 @@ class DataLayer:
         self.students_dict = DataLayer.get_all_students()
         self.students_json_dict = DataLayer.load_all_students()
         self.desired_skills_dict = DataLayer.get_desired_skills_count()
+        self.existing_skills_dict = DataLayer.get_existing_skills_count()
         self.admin_dict = {"veronica@hi.com": "hihihihi",
                            }
+
+    @staticmethod
+    def shutdown():
+        DataLayer.mongoDB.shutdown()
 
     @staticmethod
     def get_all_students():
@@ -24,6 +29,11 @@ class DataLayer:
     @staticmethod
     def get_desired_skills_count():
         desired_skills = DataLayer.mongoDB.get_desired_skills_count()
+        return desired_skills
+
+    @staticmethod
+    def get_existing_skills_count():
+        desired_skills = DataLayer.mongoDB.get_existing_skills_count()
         return desired_skills
 
     @staticmethod
