@@ -24,7 +24,6 @@ class MongoDataLayer:
         val = list(self.__db["students"].aggregate(pipeline))
         return val
 
-    db.students.aggregate()
 
     def get_existing_skills_count(self):
         return
