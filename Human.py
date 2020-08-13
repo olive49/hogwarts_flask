@@ -6,6 +6,8 @@ import time
 from typing import Dict, Optional
 from Skill import Skill
 from MongoDaterLayer import MongoDataLayer
+import os
+import hashlib
 
 
 class Human:
@@ -25,7 +27,6 @@ class Student(Human):
 
     last_update = str(datetime.now())
 
-
     def __init__(self, first_name, last_name, email,
                  existing_magic_skills=[], desired_magic_skills=[]):
         super().__init__(first_name, last_name, email)
@@ -43,7 +44,7 @@ class Student(Human):
         self.existing_magic_skills = existing_magic_skills
         self.desired_magic_skills = desired_magic_skills
         self.creation_time = str(datetime.now().date())
-        # self.last_update = str(datetime.now())
+        self.last_update = str(datetime.now())
 
     @staticmethod
     def add_existing_skill(student, skill):
@@ -102,7 +103,19 @@ class Student(Human):
 
 
 class Admin(Human):
-    def __init__(self, first_name, last_name, email):
+    def __init__(self, first_name, last_name, email, password):
         super().__init__(first_name, last_name, email)
+        self.__password = password
 
+    salt = os.urandom(32)
+    password = 'password123'
+
+    key = hashlib.pbkdf2_hmac(
+        'sha256',
+        password.encode('utf-8'),
+        salt,
+        100000
+    )
+
+    storage = salt + key
         # send a request so it knows this user is the admin

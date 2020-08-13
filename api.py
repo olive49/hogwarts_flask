@@ -9,21 +9,22 @@ from functools import wraps
 from flask_cors import CORS
 import atexit
 
+
 app = Flask(__name__)
 CORS(app)
-
-data_layer = DataLayer()
 app.secret_key = "Gryffindor"
 
+data_layer = DataLayer()
 
-@atexit.register()
-def close_db_connection():
-    data_layer.shutdown()
+#
+# @atexit.register()
+# def close_db_connection():
+#     data_layer.shutdown()
 
 
 @app.route('/')
 def return_all_students():
-    data_layer.load_all_students()
+    data_layer.get_all_students()
     return app.response_class(response=json.dumps(data_layer.students_dict), status=200, mimetype="application/json")
 
 @app.route('/main')
@@ -31,7 +32,7 @@ def return_desired_skills_count():
     data_layer.get_desired_skills_count()
     return app.response_class(response=json.dumps(data_layer.desired_skills_dict), status=200, mimetype="application/json")
 
-@app.route('/fun')
+@app.route('/')
 def return_existing_skills_count():
     data_layer.get_existing_skills_count()
     return app.response_class(response=json.dumps(data_layer.existing_skills_dict), status=200, mimetype="application/json")

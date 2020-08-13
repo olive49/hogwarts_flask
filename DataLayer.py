@@ -4,10 +4,16 @@ from Human import Student
 import datetime
 import json
 from MongoDaterLayer import MongoDataLayer
+from MySqlDataLayer import MySqlDataLayer
+from decouple import config
 
 
 class DataLayer:
-    mongoDB = MongoDataLayer()
+    if config("DB") == "Mysql":
+        data_layer = MySqlDataLayer()
+    else:
+        data_layer = MongoDataLayer()
+
 
     def __init__(self):
         self.students_dict = DataLayer.get_all_students()
@@ -19,36 +25,38 @@ class DataLayer:
 
     @staticmethod
     def shutdown():
-        DataLayer.mongoDB.shutdown()
+        DataLayer.data_layer.shutdown()
 
     @staticmethod
     def get_all_students():
-        students = DataLayer.mongoDB.get_all_students()
+        students = DataLayer.data_layer.get_all_students()
         return students
 
     @staticmethod
     def get_desired_skills_count():
-        desired_skills = DataLayer.mongoDB.get_desired_skills_count()
-        return desired_skills
+        # desired_skills = DataLayer.data_layer.get_desired_skills_count()
+        # return desired_skills
+        return
 
     @staticmethod
     def get_existing_skills_count():
-        desired_skills = DataLayer.mongoDB.get_existing_skills_count()
-        return desired_skills
+        # desired_skills = DataLayer.data_layer.get_existing_skills_count()
+        # return desired_skills
+        return
 
     @staticmethod
     def add_student(student):
-        new_student = DataLayer.mongoDB.add_student(student)
+        new_student = DataLayer.data_layer.add_student(student)
         return new_student
 
     @staticmethod
     def remove_student(student):
-        DataLayer.mongoDB.remove_student(student)
+        DataLayer.data_layer.remove_student(student)
         return True
 
     @staticmethod
     def edit_student(student, email):
-        DataLayer.mongoDB.edit_student(student, email)
+        DataLayer.data_layer.edit_student(student, email)
         return True
 
     def set_student_by_email(self, student):

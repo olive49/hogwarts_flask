@@ -16,14 +16,14 @@ class BaseDBLayer:
     def shutdown(self):
         pass
 
-    def add_preson(self, person):
+    def add_student(self, student):
         pass
 
-    def get_person_by_id(self, p_id):
+    def get_student_by_id(self, s_id):
         pass
 
-    def insert_person(self, first_name, last_name, age, address):
+    def insert_student(self, first_name, last_name, email, existing_skills, desired_skills, creation_time, last_update):
         pass
 
-    def get_all_persons(self):
+    def get_all_students(self):
         pass

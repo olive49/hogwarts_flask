@@ -1,13 +1,16 @@
 import pymongo
+from BaseDBLayer import BaseDBLayer
 
-class MongoDataLayer:
 
-    def __create(self):
-        self.__client = pymongo.MongoClient('localhost', 27017)
-        self.__db = self.__client["hogwarts_db"]
+class MongoDataLayer(BaseDBLayer):
 
     def __init__(self):
-        self.__create()
+        super().__init__()
+        self.__connect()
+
+    def __connect(self):
+        self.__client = pymongo.MongoClient('localhost', 27017)
+        self.__db = self.__client["hogwarts_db"]
 
     def shutdown(self):
         self.__client.close()
@@ -24,12 +27,11 @@ class MongoDataLayer:
         val = list(self.__db["students"].aggregate(pipeline))
         return val
 
-
     def get_existing_skills_count(self):
-        return
-        # pipeline = [{"$project": {"_id": "$existing_magic_skills", "myCount": {"$sum": 1}}}, {"$match": {"skill"}}]
-        # val = list(self.__db["students"].aggregate(pipeline))
-        # return val
+        pipeline = [{"$unwind": "$existing_magic_skills"}, {"$group": {"skills": "skills"},
+                                                            "myCount": {"$sum": 1}}]
+        val = list(self.__db["students"].aggregate(pipeline))
+        return val
 
     def add_student(self, student):
         self.__db["students"].insert(student)
@@ -42,4 +44,3 @@ class MongoDataLayer:
     def edit_student(self, student, email):
         self.__db["students"].update({"email": email}, student)
         return
-
