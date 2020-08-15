@@ -184,6 +184,11 @@ def remove_student(email):
     data_layer.remove_student(email)
     return "Student removed"
 
+@app.route('/students/delete/all', methods=["DELETE"])
+def remove_all_students():
+    data_layer.remove_all_students()
+    return "All students removed"
+
 
 if __name__ == "__main__":
     app.run()

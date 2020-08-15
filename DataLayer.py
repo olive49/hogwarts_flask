@@ -54,6 +54,10 @@ class DataLayer:
         return True
 
     @staticmethod
+    def remove_all_students():
+        DataLayer.data_layer.remove_all_students()
+
+    @staticmethod
     def edit_student(student, email):
         DataLayer.data_layer.edit_student(student, email)
         return True
