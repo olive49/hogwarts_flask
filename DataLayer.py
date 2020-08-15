@@ -16,10 +16,9 @@ class DataLayer:
 
 
     def __init__(self):
-        self.students_dict = DataLayer.get_all_students()
-        self.students_json_dict = DataLayer.load_all_students()
-        self.desired_skills_dict = DataLayer.get_desired_skills_count()
-        self.existing_skills_dict = DataLayer.get_existing_skills_count()
+        # self.students_dict = DataLayer.get_all_students()
+        # self.desired_skills_dict = DataLayer.get_desired_skills_count()
+        # self.existing_skills_dict = DataLayer.get_existing_skills_count()
         self.admin_dict = {"veronica@hi.com": "hihihihi",
                            }
 
