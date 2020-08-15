@@ -62,3 +62,22 @@ class MySqlDataLayer(BaseDBLayer):
 
         finally:
             cursor.close()
+
+
+    def remove_student(self, student):
+        try:
+            cursor = self.__mydb.cursor()
+            sql = "DELETE FROM students WHERE email = %s"
+            cursor.execute(sql, (student,))
+            self.__mydb.commit()
+            print("record removed")
+            return
+
+        except Error as error:
+            print("Failed to remove student: {}".format(error))
+
+        finally:
+            cursor.close()
+
+
+
