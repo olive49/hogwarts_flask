@@ -52,7 +52,13 @@ class MySqlDataLayer(BaseDBLayer):
             desired_val = (student["desired_magic_skills"])
             last_id = cursor.lastrowid
             cursor.execute(existing_skills, existing_val, last_id)
+            existing_last = cursor.lastrowid
             cursor.execute(desired_skills, desired_val, last_id)
+            desired_last = cursor.lastrowid
+            magic_skills = "INSERT INTO magic_skills (student_id, existing_skill_id, " \
+                           "desired_skill_id) VALUES (%s, %s, %s)"
+            magic_val = (last_id, existing_last, desired_last)
+            cursor.execute(magic_skills, magic_val)
             self.__mydb.commit()
             print(cursor.rowcount, "record inserted.")
             return cursor.rowcount
