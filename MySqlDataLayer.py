@@ -34,32 +34,49 @@ class MySqlDataLayer(BaseDBLayer):
         finally:
             cursor.close()
 
+    def add_existing_skills(self, student):
+        cursor = self.__mydb.cursor()
+        existing_list = []
+        for skill in student["existing_magic_skills"]:
+            existing_skills = "INSERT INTO existing_skills (skill_name, skill_rank) VALUES (%s, %s)"
+            existing_val = (skill["Skill"], skill["Level"])
+            cursor.execute(existing_skills, existing_val)
+            self.__mydb.commit()
+            existing_last = cursor.lastrowid
+            existing_list.append(existing_last)
+        return existing_list
+
+    def add_desired_skills(self, student):
+        cursor = self.__mydb.cursor()
+        desired_list = []
+        for skill in student["desired_magic_skills"]:
+            print("skill desire loop", skill)
+            desired_skills = "INSERT INTO desired_skills (skill_name) VALUES (%s)"
+            cursor.execute(desired_skills, (skill,))
+            self.__mydb.commit()
+            desired_last = cursor.lastrowid
+            desired_list.append(desired_last)
+        return desired_list
+
+
     def add_student(self, student):
         try:
             cursor = self.__mydb.cursor()
-            for skill in student["existing_magic_skills"]:
-                print(skill)
-            for skill_name in student["desired_magic_skills"]:
-                print(skill_name)
             sql = "INSERT INTO students (first_name, last_name, email, created_at, " \
                   "last_update) VALUES (%s, %s, %s, %s, %s)"
             val = (student["first_name"], student["last_name"], student["email"],
                    student["creation_time"], student["last_update"])
             cursor.execute(sql, val)
-            existing_skills = "INSERT INTO existing_skills (skill_name, skill_rank) VALUES (%s, %s)"
-            existing_val = (skill["Skill"], skill["Level"])
-            desired_skills = "INSERT INTO desired_skills (skill_name) VALUES (%s)"
-            desired_val = (student["desired_magic_skills"])
             last_id = cursor.lastrowid
-            cursor.execute(existing_skills, existing_val, last_id)
-            existing_last = cursor.lastrowid
-            cursor.execute(desired_skills, desired_val, last_id)
-            desired_last = cursor.lastrowid
-            magic_skills = "INSERT INTO magic_skills (student_id, existing_skill_id, " \
+            existing = MySqlDataLayer.add_existing_skills(self, student)
+            desired = MySqlDataLayer.add_desired_skills(self, student)
+            for exist in existing:
+                for desire in desired:
+                    magic_skills = "INSERT INTO magic_skills (student_id, existing_skill_id, " \
                            "desired_skill_id) VALUES (%s, %s, %s)"
-            magic_val = (last_id, existing_last, desired_last)
-            cursor.execute(magic_skills, magic_val)
-            self.__mydb.commit()
+                    magic_val = (last_id, exist, desire)
+                    cursor.execute(magic_skills, magic_val)
+                    self.__mydb.commit()
             print(cursor.rowcount, "record inserted.")
             return cursor.rowcount
 
