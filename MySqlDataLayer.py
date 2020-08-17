@@ -115,9 +115,12 @@ class MySqlDataLayer(BaseDBLayer):
 
         except Error as error:
             print("Failed to remove student: {}".format(error))
+            self.__mydb.rollback()
 
         finally:
-            cursor.close()
+            if(self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()
 
 
     def remove_all_students(self):
