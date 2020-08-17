@@ -1,6 +1,8 @@
 import mysql.connector
+from flask import jsonify
 from mysql.connector import Error
 from BaseDBLayer import BaseDBLayer
+import json
 
 from decouple import config
 
@@ -79,6 +81,7 @@ class MySqlDataLayer(BaseDBLayer):
 
     def add_student(self, student):
         try:
+            self.__mydb._open_connection()
             self.__mydb.autocommit = False
             cursor = self.__mydb.cursor()
             self.__mydb.start_transaction()
@@ -137,6 +140,29 @@ class MySqlDataLayer(BaseDBLayer):
 
         finally:
             cursor.close()
+
+
+    def get_desired_skills_count(self):
+        try:
+            self.__mydb._open_connection()
+            cursor = self.__mydb.cursor()
+            sql = "SELECT skill_name, COUNT(*) " \
+                  "FROM desired_skills " \
+                  "GROUP BY skill_name;"
+            cursor.execute(sql)
+            desired_list = []
+            response = cursor.fetchall()
+            for res, key in response:
+                desired_list.append({'Skill': res, 'Count': key})
+            return json.dumps(desired_list)
+
+        except Error as error:
+            print("Error reading data from MySQL table", error)
+
+        finally:
+            if(self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()
 
 
 

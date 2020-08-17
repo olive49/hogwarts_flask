@@ -33,9 +33,8 @@ class DataLayer:
 
     @staticmethod
     def get_desired_skills_count():
-        # desired_skills = DataLayer.data_layer.get_desired_skills_count()
-        # return desired_skills
-        return
+        desired_skills = DataLayer.data_layer.get_desired_skills_count()
+        return desired_skills
 
     @staticmethod
     def get_existing_skills_count():
