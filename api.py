@@ -22,12 +22,12 @@ data_layer = DataLayer()
 #     data_layer.shutdown()
 
 
-@app.route('/')
-def return_all_students():
-    data_layer.get_all_students()
-    return app.response_class(response=json.dumps(data_layer.students_dict),
-                              status=200,
-                              mimetype="application/json")
+# @app.route('/')
+# def return_all_students():
+#     data_layer.get_all_students()
+#     return app.response_class(response=json.dumps(data_layer.students_dict),
+#                               status=200,
+#                               mimetype="application/json")
 
 @app.route('/main')
 def return_desired_skills_count():

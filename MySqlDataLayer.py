@@ -25,10 +25,22 @@ class MySqlDataLayer(BaseDBLayer):
     def get_all_students(self):
         try:
             cursor = self.__mydb.cursor()
-            sql = "SELECT first_name, last_name, email FROM students"
+            sql = "SELECT s.first_name, s.last_name, s.email, GROUP_CONCAT(DISTINCT es.skill_name, es.skill_rank SEPARATOR ', '), group_concat(distinct ds.skill_name separator', ') " \
+                  "FROM desired_skills ds  " \
+                  "INNER JOIN existing_skills es " \
+                  "ON es.student_id = ds.student_id " \
+                  "INNER JOIN students s " \
+                  "ON s.id = es.student_id " \
+                  "GROUP BY s.id;"
             cursor.execute(sql)
             res = cursor.fetchall()
-            return res
+            print(res)
+
+            student_list = []
+            for fn, ln, email in res:
+                print(fn, ln, email)
+                student_list.append({"First_name": fn, "Last_name": ln, "Email": email})
+            return student_list
 
         except Error as error:
             print("Error reading data from MySQL table", error)
