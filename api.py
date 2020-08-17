@@ -96,6 +96,13 @@ def get_students_existing_skills(skill):
                               status=200,
                               mimetype='application/json')
 
+@app.route('/students/existing_skills')
+def get_existing_skills_count():
+    resp = data_layer.get_existing_skills_count()
+    return app.response_class(response=resp,
+                              status=200,
+                              mimetype='application/json')
+
 
 @app.route('/students/add', methods=["POST"])
 def add_student():

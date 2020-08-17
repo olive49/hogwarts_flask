@@ -165,6 +165,29 @@ class MySqlDataLayer(BaseDBLayer):
                 self.__mydb.close()
 
 
+    def get_existing_skills_count(self):
+        try:
+            self.__mydb._open_connection()
+            cursor = self.__mydb.cursor()
+            sql = "SELECT skill_name, COUNT(*) " \
+                  "FROM existing_skills " \
+                  "GROUP BY skill_name;"
+            cursor.execute(sql)
+            existing_list = []
+            response = cursor.fetchall()
+            for res, key in response:
+                existing_list.append({'Skill': res, 'Count': key})
+            return json.dumps(existing_list)
+
+        except Error as error:
+            print("Error reading data from MySQL table", error)
+
+        finally:
+            if(self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()
+
+
 
 
 
