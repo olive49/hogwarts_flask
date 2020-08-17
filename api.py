@@ -122,7 +122,7 @@ def add_student():
 def edit_student(email):
     if request.method == "PUT":
         data = request.json
-        Student.edit_student(data)
+        # Student.edit_student(data)
         result = data_layer.edit_student(data, email)
         response = app.response_class(response=json.dumps(result),
                                       status=200, mimetype="application/json")

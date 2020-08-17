@@ -56,8 +56,8 @@ class DataLayer:
         DataLayer.data_layer.remove_all_students()
 
     @staticmethod
-    def edit_student(student, email):
-        DataLayer.data_layer.edit_student(student, email)
+    def edit_student(data, student):
+        DataLayer.data_layer.edit_student(data, student)
         return True
 
     def set_student_by_email(self, student):

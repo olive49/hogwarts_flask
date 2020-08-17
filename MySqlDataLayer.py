@@ -6,6 +6,7 @@ import json
 
 from decouple import config
 
+
 class MySqlDataLayer(BaseDBLayer):
     def __init__(self):
         super().__init__()
@@ -25,7 +26,7 @@ class MySqlDataLayer(BaseDBLayer):
     def get_all_students(self):
         try:
             cursor = self.__mydb.cursor()
-            sql = "SELECT s.first_name, s.last_name, s.email, GROUP_CONCAT(DISTINCT es.skill_name, es.skill_rank SEPARATOR ', '), group_concat(distinct ds.skill_name separator', ') " \
+            sql = "SELECT s.first_name, s.last_name, s.email, GROUP_CONCAT(DISTINCT 'Skill: ', es.skill_name, ' Level: ', es.skill_rank SEPARATOR ', ') as existing_skills, group_concat(distinct ds.skill_name separator', ') as desired_skills " \
                   "FROM desired_skills ds  " \
                   "INNER JOIN existing_skills es " \
                   "ON es.student_id = ds.student_id " \
@@ -37,9 +38,9 @@ class MySqlDataLayer(BaseDBLayer):
             print(res)
 
             student_list = []
-            for fn, ln, email in res:
-                print(fn, ln, email)
-                student_list.append({"First_name": fn, "Last_name": ln, "Email": email})
+            for fn, ln, email, es, ds in res:
+                student_list.append({"First_name": fn, "Last_name": ln, "Email": email, "Existing_skills": es,
+                                     "Desired_skills": ds})
             return student_list
 
         except Error as error:
@@ -90,7 +91,6 @@ class MySqlDataLayer(BaseDBLayer):
             cursor.execute(desired_skills, desired_val)
         return
 
-
     def add_student(self, student):
         try:
             self.__mydb._open_connection()
@@ -114,10 +114,9 @@ class MySqlDataLayer(BaseDBLayer):
             self.__mydb.rollback()
 
         finally:
-            if(self.__mydb.is_connected()):
+            if (self.__mydb.is_connected()):
                 cursor.close()
                 self.__mydb.close()
-
 
     def remove_student(self, student):
         try:
@@ -133,10 +132,9 @@ class MySqlDataLayer(BaseDBLayer):
             self.__mydb.rollback()
 
         finally:
-            if(self.__mydb.is_connected()):
+            if (self.__mydb.is_connected()):
                 cursor.close()
                 self.__mydb.close()
-
 
     def remove_all_students(self):
         try:
@@ -152,7 +150,6 @@ class MySqlDataLayer(BaseDBLayer):
 
         finally:
             cursor.close()
-
 
     def get_desired_skills_count(self):
         try:
@@ -172,10 +169,9 @@ class MySqlDataLayer(BaseDBLayer):
             print("Error reading data from MySQL table", error)
 
         finally:
-            if(self.__mydb.is_connected()):
+            if (self.__mydb.is_connected()):
                 cursor.close()
                 self.__mydb.close()
-
 
     def get_existing_skills_count(self):
         try:
@@ -195,11 +191,29 @@ class MySqlDataLayer(BaseDBLayer):
             print("Error reading data from MySQL table", error)
 
         finally:
-            if(self.__mydb.is_connected()):
+            if (self.__mydb.is_connected()):
                 cursor.close()
                 self.__mydb.close()
 
+    def edit_student(self, data, student):
+        try:
+            print(student)
+            self.__mydb._open_connection()
+            cursor = self.__mydb.cursor()
+
+            sql = "SET @update_id:=0; " \
+                  "UPDATE students " \
+                  "SET first_name = %s, last_name = %s, email = %s  , id = (SELECT @ update_id := id)" \
+                  "WHERE " \
+                  "email = %s SELECT @ update_id as last_update_ID;"
+            student_data = (data["first_name"], data["last_name"], data["email"], student)
+            cursor.execute(sql, student_data)
 
 
+        except Error as error:
+            print("Error reading data from MySQL table", error)
 
-
+        finally:
+            if (self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()
