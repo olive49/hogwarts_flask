@@ -195,23 +195,78 @@ class MySqlDataLayer(BaseDBLayer):
                 cursor.close()
                 self.__mydb.close()
 
+    def update_existing_skills(self, data, student_id):
+        cursor = self.__mydb.cursor()
+        for skill in data["existing_magic_skills"]:
+            if skill["Skill"] == "Potion Making":
+                skill_id = 1
+            elif skill["Skill"] == "Spells":
+                skill_id = 2
+            elif skill["Skill"] == "Quidditch":
+                skill_id = 3
+            elif skill["Skill"] == "Apparate":
+                skill_id = 4
+            elif skill["Skill"] == "Metamorphmagi":
+                skill_id = 5
+            elif skill["Skill"] == "Parseltongue":
+                skill_id = 6
+            existing_skills = "UPDATE existing_skills " \
+                              "SET skill_id = %s, skill_name = %s, skill_rank = %s " \
+                              "WHERE " \
+                              "student_id = %s "
+            existing_val = (skill_id, skill["Skill"], skill["Level"], student_id)
+            cursor.execute(existing_skills, existing_val)
+        return
+
+    def update_desired_skills(self, data, student_id):
+        cursor = self.__mydb.cursor()
+        for skill in data["existing_magic_skills"]:
+            if skill["Skill"] == "Potion Making":
+                skill_id = 1
+            elif skill["Skill"] == "Spells":
+                skill_id = 2
+            elif skill["Skill"] == "Quidditch":
+                skill_id = 3
+            elif skill["Skill"] == "Apparate":
+                skill_id = 4
+            elif skill["Skill"] == "Metamorphmagi":
+                skill_id = 5
+            elif skill["Skill"] == "Parseltongue":
+                skill_id = 6
+            desired_skills = "UPDATE desired_skills" \
+                              "SET skill_id = %, skill_name = %, " \
+                              "WHERE student_id = %"
+            desired_val = (skill_id, skill["Skill"], skill["Level"], student_id)
+            cursor.execute(desired_skills, desired_val)
+        return
+
     def edit_student(self, data, student):
         try:
-            print(student)
             self.__mydb._open_connection()
             cursor = self.__mydb.cursor()
-
-            sql = "SET @update_id:=0; " \
-                  "UPDATE students " \
-                  "SET first_name = %s, last_name = %s, email = %s  , id = (SELECT @ update_id := id)" \
+            id_sql = "SELECT id " \
+                     "FROM hogwarts.students " \
+                     "WHERE email = %s;"
+            cursor.execute(id_sql, (student,))
+            student_id = cursor.fetchone()
+            for id in student_id:
+                print(id)
+            self.__mydb.start_transaction()
+            sql = "UPDATE students " \
+                  "SET first_name = %s, last_name = %s, email = %s" \
                   "WHERE " \
-                  "email = %s SELECT @ update_id as last_update_ID;"
+                  "email = %s "
             student_data = (data["first_name"], data["last_name"], data["email"], student)
             cursor.execute(sql, student_data)
-
+            MySqlDataLayer.update_existing_skills(self, data, id)
+            MySqlDataLayer.update_desired_skills(self, data, id)
+            self.__mydb.commit()
+            print(cursor.rowcount, "record updated.")
+            return cursor.rowcount
 
         except Error as error:
-            print("Error reading data from MySQL table", error)
+            print("Failed to update record to database rollback: {}".format(error))
+            self.__mydb.rollback()
 
         finally:
             if (self.__mydb.is_connected()):
