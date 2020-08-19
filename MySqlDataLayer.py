@@ -27,13 +27,14 @@ class MySqlDataLayer(BaseDBLayer):
 
     def get_all_students(self):
         try:
+            self.__mydb.connect()
             cursor = self.__mydb.cursor()
-            sql = "SELECT s.first_name, s.last_name, s.email, GROUP_CONCAT(DISTINCT 'Skill: ', es.skill_name, ' Level: ', es.skill_rank SEPARATOR ', ') as existing_skills, group_concat(distinct ds.skill_name separator', ') as desired_skills " \
-                  "FROM desired_skills ds  " \
-                  "INNER JOIN existing_skills es " \
-                  "ON es.student_id = ds.student_id " \
-                  "INNER JOIN students s " \
-                  "ON s.id = es.student_id " \
+            sql = "SELECT s.first_name, s.last_name, s.email, " \
+                  "group_concat(DISTINCT es.skill_name, ':', concat(es.skill_rank) separator ',') as existing_skills, " \
+                  "group_concat(DISTINCT ds.skill_name separator ', ') as desired_skills " \
+                  "FROM students s,existing_skills es, desired_skills ds " \
+                  "WHERE s.id = es.student_id AND " \
+                  "es.student_id = ds.student_id " \
                   "GROUP BY s.id;"
             cursor.execute(sql)
             res = cursor.fetchall()
@@ -41,15 +42,25 @@ class MySqlDataLayer(BaseDBLayer):
 
             student_list = []
             for fn, ln, email, es, ds in res:
-                student_list.append({"First_name": fn, "Last_name": ln, "Email": email, "Existing_skills": es,
-                                     "Desired_skills": ds})
+                print(es)
+                split_one = es.split(",")
+                es_skill_list = []
+                for split_item in split_one:
+                    split_two = split_item.split(":")
+                    spell_name = split_two[0]
+                    spell_level = split_two[1]
+                    spell_dict = {"Skill": spell_name, "Level": spell_level}
+                    es_skill_list.append(spell_dict)
+                student_list.append({"First_name": fn, "Last_name": ln, "Email": email,
+                                     "Existing_skills": es_skill_list, "Desired_skills": ds})
             return student_list
 
         except Error as error:
             print("Error reading data from MySQL table", error)
 
-        finally:
-            cursor.close()
+        # finally:
+            # mydb.close_connection()
+            # cursor.close()
 
     def add_existing_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
@@ -136,7 +147,7 @@ class MySqlDataLayer(BaseDBLayer):
 
     def get_desired_skills_count(self):
         try:
-            self.__mydb._open_connection()
+            self.__mydb.connect()
             cursor = self.__mydb.cursor()
             sql = "SELECT skill_name, COUNT(*) " \
                   "FROM desired_skills " \
