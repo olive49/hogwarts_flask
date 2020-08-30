@@ -36,7 +36,9 @@ class MySqlDataLayer(BaseDBLayer):
             for f_name, l_name, email, e_skills, d_skills in res:
                 existing_skills = []
                 d = dict(x.split(":") for x in e_skills.split(","))
-                existing_skills.append(d)
+                for k,v in d.items():
+                    e_skills_dict = {"Skill": k, "Level": v}
+                    existing_skills.append(e_skills_dict)
                 student = {"First_name": f_name, "Last_name": l_name, "Email": email,
                                 "Existing_skills": existing_skills, "Desired_skills": d_skills}
                 student_dict.append(student)
