@@ -23,7 +23,13 @@ class MySqlDataLayer(BaseDBLayer):
     def get_all_students(self):
         try:
             cursor = self.__mydb.cursor()
-            sql = "SELECT first_name, last_name, email FROM students"
+            sql = "SELECT s.first_name, s.last_name, s.email, " \
+                  "group_concat(DISTINCT es.skill_name, ':', " \
+                  "concat(es.skill_rank) separator ',') as existing_skills, " \
+                  "group_concat(DISTINCT ds.skill_name separator ',') as desired_skills " \
+                  "FROM students s, existing_skills es, desired_skills ds " \
+                  "WHERE s.id = es.student_id AND es.student_id = ds.student_id " \
+                  "GROUP BY s.id;"
             cursor.execute(sql)
             res = cursor.fetchall()
             return res
