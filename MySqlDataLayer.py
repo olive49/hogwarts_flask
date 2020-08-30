@@ -16,6 +16,9 @@ class MySqlDataLayer(BaseDBLayer):
             password=config('PASSWORD'),
             database="hogwarts"
         )
+        self.skills_dict = [{"Skill": "Potion Making", "Skill_id": 1}, {"Skill": "Spells", "Skill_id": 2},
+                            {"Skill": "Quidditch", "Skill_id": 3}, {"Skill": "Apparate", "Skill_id": 4},
+                            {"Skill": "Metamorphmagi", "Skill_id": 5}, {"Skill": "Parseltongue", "Skill_id": 6}]
 
     def shutdown_db(self):
         self.__mydb.close()
@@ -63,9 +66,12 @@ class MySqlDataLayer(BaseDBLayer):
         print(desired_skills)
         return desired_skills
 
+
     def add_existing_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
         for skill in student["existing_magic_skills"]:
+            if skill["Skill"] in self.skills_dict:
+                print("Skill_id")
             if skill["Skill"] == "Potion Making":
                 skill_id = 1
             elif skill["Skill"] == "Spells":
@@ -108,9 +114,8 @@ class MySqlDataLayer(BaseDBLayer):
 
     def add_student(self, student):
         try:
-            self.__mydb.autocommit = False
             cursor = self.__mydb.cursor()
-            self.__mydb.start_transaction()
+            # self.__mydb.start_transaction()
             sql = "INSERT INTO students (first_name, last_name, email, created_at, " \
                   "last_update) VALUES (%s, %s, %s, %s, %s)"
             val = (student["first_name"], student["last_name"], student["email"],
