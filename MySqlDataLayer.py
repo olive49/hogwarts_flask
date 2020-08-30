@@ -51,6 +51,18 @@ class MySqlDataLayer(BaseDBLayer):
         finally:
             cursor.close()
 
+    def get_desired_skills_count(self):
+        desired_skills = []
+        cursor = self.__mydb.cursor()
+        sql = "SELECT skill_name, COUNT(*) FROM hogwarts.desired_skills GROUP BY skill_name"
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        for skill, count in res:
+            skill_item = {"Skill": skill, "Count": count}
+            desired_skills.append(skill_item)
+        print(desired_skills)
+        return desired_skills
+
     def add_existing_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
         for skill in student["existing_magic_skills"]:

@@ -29,10 +29,12 @@ def return_all_students():
                               status=200,
                               mimetype="application/json")
 
-@app.route('/main')
+@app.route('/students/desired_skills')
 def return_desired_skills_count():
-    data_layer.get_desired_skills_count()
-    return app.response_class(response=json.dumps(data_layer.desired_skills_dict), status=200, mimetype="application/json")
+    # data_layer.get_desired_skills_count()
+    return app.response_class(response=json.dumps(data_layer.get_desired_skills_count()),
+                              status=200,
+                              mimetype="application/json")
 
 @app.route('/')
 def return_existing_skills_count():
@@ -51,14 +53,14 @@ def login_required(f):
         return wrap
 
 
-@app.route('/students/<email>')
-def get_students_by_email(email):
-    for email in data_layer.students_dict:
-        print(data_layer.students_dict[email])
-    data_layer.get_student_by_email(email)
-    return app.response_class(response=data_layer.students_dict[email],
-                              status=200,
-                              mimetype='application/json')
+# @app.route('/students/<email>')
+# def get_students_by_email(email):
+#     for email in data_layer.students_dict:
+#         print(data_layer.students_dict[email])
+#     data_layer.get_student_by_email(email)
+#     return app.response_class(response=data_layer.students_dict[email],
+#                               status=200,
+#                               mimetype='application/json')
 
 
 @app.route('/students')

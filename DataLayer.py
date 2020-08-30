@@ -16,7 +16,7 @@ class DataLayer:
 
 
     def __init__(self):
-        # self.students_dict = DataLayer.get_all_students()
+        self.students_dict = DataLayer.get_all_students()
         # self.desired_skills_dict = DataLayer.get_desired_skills_count()
         # self.existing_skills_dict = DataLayer.get_existing_skills_count()
         self.admin_dict = {"veronica@hi.com": "hihihihi",
@@ -33,9 +33,8 @@ class DataLayer:
 
     @staticmethod
     def get_desired_skills_count():
-        # desired_skills = DataLayer.data_layer.get_desired_skills_count()
-        # return desired_skills
-        return
+        desired_skills = DataLayer.data_layer.get_desired_skills_count()
+        return desired_skills
 
     @staticmethod
     def get_existing_skills_count():
