@@ -32,7 +32,16 @@ class MySqlDataLayer(BaseDBLayer):
                   "GROUP BY s.id;"
             cursor.execute(sql)
             res = cursor.fetchall()
-            return res
+            student_dict = []
+            for f_name, l_name, email, e_skills, d_skills in res:
+                existing_skills = []
+                d = dict(x.split(":") for x in e_skills.split(","))
+                existing_skills.append(d)
+                student = {"First_name": f_name, "Last_name": l_name, "Email": email,
+                                "Existing_skills": existing_skills, "Desired_skills": d_skills}
+                student_dict.append(student)
+            print(student_dict)
+            return student_dict
 
         except Error as error:
             print("Error reading data from MySQL table", error)
