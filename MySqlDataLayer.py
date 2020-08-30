@@ -1,8 +1,11 @@
 import mysql.connector
+from flask import jsonify
 from mysql.connector import Error
 from BaseDBLayer import BaseDBLayer
+import json
 
 from decouple import config
+
 
 class MySqlDataLayer(BaseDBLayer):
     def __init__(self):
@@ -16,15 +19,16 @@ class MySqlDataLayer(BaseDBLayer):
             password=config('PASSWORD'),
             database="hogwarts"
         )
-        self.skills_dict = [{"Skill": "Potion Making", "Skill_id": 1}, {"Skill": "Spells", "Skill_id": 2},
-                            {"Skill": "Quidditch", "Skill_id": 3}, {"Skill": "Apparate", "Skill_id": 4},
-                            {"Skill": "Metamorphmagi", "Skill_id": 5}, {"Skill": "Parseltongue", "Skill_id": 6}]
+        self.__my_skill = {"Potion Making": 1, "Spells": 2, "Quidditch": 3,
+                "Apparate": 4, "Metamorphmagi": 5, "Parseltongue": 6}
+
 
     def shutdown_db(self):
         self.__mydb.close()
 
     def get_all_students(self):
         try:
+            self.__mydb.connect()
             cursor = self.__mydb.cursor()
             sql = "SELECT s.first_name, s.last_name, s.email, " \
                   "group_concat(DISTINCT es.skill_name, ':', " \
@@ -51,8 +55,9 @@ class MySqlDataLayer(BaseDBLayer):
         except Error as error:
             print("Error reading data from MySQL table", error)
 
-        finally:
-            cursor.close()
+        # finally:
+            # mydb.close_connection()
+            # cursor.close()
 
     def get_desired_skills_count(self):
         desired_skills = []
@@ -69,51 +74,32 @@ class MySqlDataLayer(BaseDBLayer):
 
     def add_existing_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
-        for skill in student["existing_magic_skills"]:
-            if skill["Skill"] in self.skills_dict:
-                print("Skill_id")
-            if skill["Skill"] == "Potion Making":
-                skill_id = 1
-            elif skill["Skill"] == "Spells":
-                skill_id = 2
-            elif skill["Skill"] == "Quidditch":
-                skill_id = 3
-            elif skill["Skill"] == "Apparate":
-                skill_id = 4
-            elif skill["Skill"] == "Metamorphmagi":
-                skill_id = 5
-            elif skill["Skill"] == "Parseltongue":
-                skill_id = 6
+        for skill_name in student["existing_magic_skills"]:
+            for skill, level in self.__my_skill.items():
+                if skill_name["Skill"] == skill:
+                    skill_id = level
+
             existing_skills = "INSERT INTO existing_skills (skill_id, skill_name, skill_rank, " \
                               "student_id) VALUES (%s, %s, %s, %s)"
-            existing_val = (skill_id, skill["Skill"], skill["Level"], last_id)
+            existing_val = (skill_id, skill_name["Skill"], skill_name["Level"], last_id)
             cursor.execute(existing_skills, existing_val)
         return
 
     def add_desired_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
-        for skill in student["desired_magic_skills"]:
-            if skill == "Potion Making":
-                skill_id = 1
-            elif skill == "Spells":
-                skill_id = 2
-            elif skill == "Quidditch":
-                skill_id = 3
-            elif skill == "Apparate":
-                skill_id = 4
-            elif skill == "Metamorphmagi":
-                skill_id = 5
-            elif skill == "Parseltongue":
-                skill_id = 6
-            print("skill desire loop", skill)
+        for skill_name in student["desired_magic_skills"]:
+            for skill, level in self.__my_skill.items():
+                if skill_name["Skill"] == skill:
+                    skill_id = level
             desired_skills = "INSERT INTO desired_skills (skill_id, skill_name, student_id) VALUES (%s, %s, %s)"
-            desired_val = (skill_id, skill, last_id)
+            desired_val = (skill_id, skill_name, last_id)
             cursor.execute(desired_skills, desired_val)
         return
 
-
     def add_student(self, student):
         try:
+            self.__mydb._open_connection()
+            self.__mydb.autocommit = False
             cursor = self.__mydb.cursor()
             # self.__mydb.start_transaction()
             sql = "INSERT INTO students (first_name, last_name, email, created_at, " \
@@ -133,10 +119,9 @@ class MySqlDataLayer(BaseDBLayer):
             self.__mydb.rollback()
 
         finally:
-            if(self.__mydb.is_connected()):
+            if (self.__mydb.is_connected()):
                 cursor.close()
                 self.__mydb.close()
-
 
     def remove_student(self, student):
         try:
@@ -152,10 +137,9 @@ class MySqlDataLayer(BaseDBLayer):
             self.__mydb.rollback()
 
         finally:
-            if(self.__mydb.is_connected()):
+            if (self.__mydb.is_connected()):
                 cursor.close()
                 self.__mydb.close()
-
 
     def remove_all_students(self):
         try:
@@ -172,7 +156,108 @@ class MySqlDataLayer(BaseDBLayer):
         finally:
             cursor.close()
 
+    def get_desired_skills_count(self):
+        try:
+            self.__mydb.connect()
+            cursor = self.__mydb.cursor()
+            sql = "SELECT skill_name, COUNT(*) " \
+                  "FROM desired_skills " \
+                  "GROUP BY skill_name;"
+            cursor.execute(sql)
+            desired_list = []
+            response = cursor.fetchall()
+            for res, key in response:
+                desired_list.append({'Skill': res, 'Count': key})
+            return json.dumps(desired_list)
 
+        except Error as error:
+            print("Error reading data from MySQL table", error)
 
+        finally:
+            if (self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()
 
+    def get_existing_skills_count(self):
+        try:
+            self.__mydb._open_connection()
+            cursor = self.__mydb.cursor()
+            sql = "SELECT skill_name, COUNT(*) " \
+                  "FROM existing_skills " \
+                  "GROUP BY skill_name;"
+            cursor.execute(sql)
+            existing_list = []
+            response = cursor.fetchall()
+            for res, key in response:
+                existing_list.append({'Skill': res, 'Count': key})
+            return json.dumps(existing_list)
 
+        except Error as error:
+            print("Error reading data from MySQL table", error)
+
+        finally:
+            if (self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()
+
+    def update_existing_skills(self, data, student_id):
+        cursor = self.__mydb.cursor()
+        for skill_name in data["existing_magic_skills"]:
+            for skill, level in self.__my_skill.items():
+                if skill_name["Skill"] == skill:
+                    skill_id = level
+            existing_skills = "UPDATE existing_skills " \
+                              "SET skill_id = %s, skill_name = %s, skill_rank = %s " \
+                              "WHERE " \
+                              "student_id = %s " \
+                              "LIMIT 1"
+            existing_val = (skill_id, skill_name["Skill"], skill_name["Level"], student_id)
+            cursor.execute(existing_skills, existing_val)
+        return
+
+    def update_desired_skills(self, data, student_id):
+        cursor = self.__mydb.cursor()
+        for skill_name in data["desired_magic_skills"]:
+            for skill, level in self.__my_skill.items():
+                if skill_name["Skill"] == skill:
+                    skill_id = level
+            desired_skills = "UPDATE desired_skills " \
+                             "SET skill_id = %s, skill_name = %s " \
+                             "WHERE " \
+                             "student_id = %s "
+            desired_val = (skill_id, skill_name["Skill"], student_id)
+            cursor.execute(desired_skills, desired_val)
+        return
+
+    def edit_student(self, data, student):
+        try:
+            self.__mydb._open_connection()
+            cursor = self.__mydb.cursor()
+            id_sql = "SELECT id " \
+                     "FROM hogwarts.students " \
+                     "WHERE email = %s;"
+            cursor.execute(id_sql, (student,))
+            student_id = cursor.fetchone()
+            for id in student_id:
+                print(id)
+            self.__mydb.start_transaction()
+            sql = "UPDATE students " \
+                  "SET first_name = %s, last_name = %s, email = %s" \
+                  "WHERE " \
+                  "email = %s "
+            student_data = (data["first_name"], data["last_name"], data["email"], student)
+            cursor.execute(sql, student_data)
+            MySqlDataLayer.update_existing_skills(self, data, id)
+            MySqlDataLayer.update_desired_skills(self, data, id)
+            self.__mydb.commit()
+            print(cursor.rowcount, "record updated.")
+            return cursor.rowcount
+
+        except Error as error:
+            print("Failed to update record to database rollback: {}".format(error))
+            self.__mydb.rollback()
+
+        finally:
+            if (self.__mydb.is_connected()):
+                cursor.close()
+                self.__mydb.close()

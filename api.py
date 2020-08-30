@@ -29,6 +29,7 @@ data_layer = DataLayer()
 #                               status=200,
 #                               mimetype="application/json")
 
+
 @app.route('/students/desired_skills')
 def return_desired_skills_count():
     # data_layer.get_desired_skills_count()
@@ -84,10 +85,24 @@ def get_students_desired_skills(skill):
                               status=200,
                               mimetype='application/json')
 
+@app.route('/students/desired_skills')
+def get_desired_skills_count():
+    resp = data_layer.get_desired_skills_count()
+    return app.response_class(response=resp,
+                              status=200,
+                              mimetype='application/json')
+
 
 @app.route('/students/existing_skills/<skill>')
 def get_students_existing_skills(skill):
     return app.response_class(response=data_layer.get_students_by_existing_skills(skill),
+                              status=200,
+                              mimetype='application/json')
+
+@app.route('/students/existing_skills')
+def get_existing_skills_count():
+    resp = data_layer.get_existing_skills_count()
+    return app.response_class(response=resp,
                               status=200,
                               mimetype='application/json')
 
@@ -110,7 +125,7 @@ def add_student():
 def edit_student(email):
     if request.method == "PUT":
         data = request.json
-        Student.edit_student(data)
+        # Student.edit_student(data)
         result = data_layer.edit_student(data, email)
         response = app.response_class(response=json.dumps(result),
                                       status=200, mimetype="application/json")
