@@ -22,7 +22,6 @@ class MySqlDataLayer(BaseDBLayer):
         self.__my_skill = {"Potion Making": 1, "Spells": 2, "Quidditch": 3,
                 "Apparate": 4, "Metamorphmagi": 5, "Parseltongue": 6}
 
-
     def shutdown_db(self):
         self.__mydb.close()
 
@@ -49,28 +48,15 @@ class MySqlDataLayer(BaseDBLayer):
                 student = {"First_name": f_name, "Last_name": l_name, "Email": email,
                                 "Existing_skills": existing_skills, "Desired_skills": d_skills}
                 student_dict.append(student)
-            print(student_dict)
+            print(type(student_dict), "student_dict")
             return student_dict
 
         except Error as error:
             print("Error reading data from MySQL table", error)
 
         # finally:
-            # mydb.close_connection()
+            # self.__mydb.close_connection()
             # cursor.close()
-
-    def get_desired_skills_count(self):
-        desired_skills = []
-        cursor = self.__mydb.cursor()
-        sql = "SELECT skill_name, COUNT(*) FROM hogwarts.desired_skills GROUP BY skill_name"
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        for skill, count in res:
-            skill_item = {"Skill": skill, "Count": count}
-            desired_skills.append(skill_item)
-        print(desired_skills)
-        return desired_skills
-
 
     def add_existing_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
@@ -168,7 +154,7 @@ class MySqlDataLayer(BaseDBLayer):
             response = cursor.fetchall()
             for res, key in response:
                 desired_list.append({'Skill': res, 'Count': key})
-            return json.dumps(desired_list)
+            return desired_list
 
         except Error as error:
             print("Error reading data from MySQL table", error)

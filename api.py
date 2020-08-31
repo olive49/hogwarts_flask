@@ -32,15 +32,17 @@ data_layer = DataLayer()
 
 @app.route('/students/desired_skills')
 def return_desired_skills_count():
-    # data_layer.get_desired_skills_count()
-    return app.response_class(response=json.dumps(data_layer.get_desired_skills_count()),
+    d_skills = data_layer.get_desired_skills_count()
+    return app.response_class(response=json.dumps(d_skills),
                               status=200,
                               mimetype="application/json")
 
 @app.route('/')
 def return_existing_skills_count():
     data_layer.get_existing_skills_count()
-    return app.response_class(response=json.dumps(data_layer.existing_skills_dict), status=200, mimetype="application/json")
+    return app.response_class(response=json.dumps(data_layer.existing_skills_dict),
+                              status=200,
+                              mimetype="application/json")
 
 
 def login_required(f):

@@ -29,11 +29,13 @@ class DataLayer:
     @staticmethod
     def get_all_students():
         students = DataLayer.data_layer.get_all_students()
+        print(type(students), "students")
         return students
 
     @staticmethod
     def get_desired_skills_count():
         desired_skills = DataLayer.data_layer.get_desired_skills_count()
+        print(type(desired_skills), "desired")
         return desired_skills
 
     @staticmethod
