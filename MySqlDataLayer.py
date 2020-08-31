@@ -27,7 +27,7 @@ class MySqlDataLayer(BaseDBLayer):
 
     def get_all_students(self):
         try:
-            self.__mydb.connect()
+            self.__connect()
             cursor = self.__mydb.cursor()
             sql = "SELECT s.first_name, s.last_name, s.email, " \
                   "group_concat(DISTINCT es.skill_name, ':', " \
@@ -62,20 +62,22 @@ class MySqlDataLayer(BaseDBLayer):
         cursor = self.__mydb.cursor()
         for skill_name in student["existing_magic_skills"]:
             for skill, level in self.__my_skill.items():
-                if skill_name["Skill"] == skill:
+                if skill_name["skill"] == skill:
                     skill_id = level
 
             existing_skills = "INSERT INTO existing_skills (skill_id, skill_name, skill_rank, " \
                               "student_id) VALUES (%s, %s, %s, %s)"
-            existing_val = (skill_id, skill_name["Skill"], skill_name["Level"], last_id)
+            existing_val = (skill_id, skill_name["skill"], skill_name["level"], last_id)
             cursor.execute(existing_skills, existing_val)
         return
 
     def add_desired_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
         for skill_name in student["desired_magic_skills"]:
+            print(type(skill_name), "skill type")
             for skill, level in self.__my_skill.items():
-                if skill_name["Skill"] == skill:
+                print(type(skill), "dict skill type")
+                if skill_name == skill:
                     skill_id = level
             desired_skills = "INSERT INTO desired_skills (skill_id, skill_name, student_id) VALUES (%s, %s, %s)"
             desired_val = (skill_id, skill_name, last_id)
