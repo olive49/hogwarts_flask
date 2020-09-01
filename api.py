@@ -213,4 +213,4 @@ def remove_all_students():
 
 if __name__ == "__main__":
     # app.run()
-    app.run(debug=True)
+    app.run(debug=True, threaded=False, processes=3)

@@ -17,7 +17,9 @@ class MySqlDataLayer(BaseDBLayer):
             host="localhost",
             user=config('MYSQL_USER'),
             password=config('PASSWORD'),
-            database="hogwarts"
+            database="hogwarts",
+            pool_name="mypool",
+            pool_size=3
         )
         self.__my_skill = {"Potion Making": 1, "Spells": 2, "Quidditch": 3,
                 "Apparate": 4, "Metamorphmagi": 5, "Parseltongue": 6}
