@@ -22,7 +22,7 @@ class MySqlDataLayer(BaseDBLayer):
             pool_size=3
         )
         self.__my_skill = {"Potion Making": 1, "Spells": 2, "Quidditch": 3,
-                "Apparate": 4, "Metamorphmagi": 5, "Parseltongue": 6}
+                           "Apparate": 4, "Metamorphmagi": 5, "Parseltongue": 6}
 
     def shutdown_db(self):
         self.__mydb.close()
@@ -43,12 +43,13 @@ class MySqlDataLayer(BaseDBLayer):
             student_dict = []
             for f_name, l_name, email, e_skills, d_skills in res:
                 existing_skills = []
+                desired_skills = [d_skills]
                 d = dict(x.split(":") for x in e_skills.split(","))
-                for k,v in d.items():
+                for k, v in d.items():
                     e_skills_dict = {"Skill": k, "Level": v}
                     existing_skills.append(e_skills_dict)
                 student = {"First_name": f_name, "Last_name": l_name, "Email": email,
-                                "Existing_skills": existing_skills, "Desired_skills": d_skills}
+                           "Existing_skills": existing_skills, "Desired_skills": desired_skills}
                 student_dict.append(student)
             print(type(student_dict), "student_dict")
             return student_dict
@@ -57,8 +58,8 @@ class MySqlDataLayer(BaseDBLayer):
             print("Error reading data from MySQL table", error)
 
         # finally:
-            # self.__mydb.close_connection()
-            # cursor.close()
+        # self.__mydb.close_connection()
+        # cursor.close()
 
     def add_existing_skills(self, student, last_id):
         cursor = self.__mydb.cursor()
